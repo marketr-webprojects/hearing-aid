@@ -1,0 +1,77 @@
+import type { Metadata } from "next";
+import { MapPin, Phone, Clock } from "lucide-react";
+
+import { SubPage, InfoCard } from "@/components/site/SubPage";
+import { BRANCHES } from "@/lib/company";
+const clinic = "/assets/clinic-interior.webp";
+
+export const metadata: Metadata = {
+  title: "Our Clinics & Branches — Tanay, Cebu, Dasmariñas, La Union | Linaw Dinig",
+  description:
+    "Visit Linaw Dinig Hearing Aid Center at any of our four branches — Tanay (Rizal), Cebu City, Dasmariñas (Cavite) and Rosario (La Union). Calm, modern, sound-treated clinics designed to put you at ease.",
+  keywords: [
+    "hearing aid center Tanay",
+    "hearing aid center Cebu",
+    "hearing aid center Dasmariñas",
+    "hearing aid center La Union",
+    "hearing clinic Philippines",
+  ],
+  openGraph: {
+    title: "Our Clinics & Branches",
+    description: "Four welcoming hearing clinics across the Philippines — designed to put you at ease.",
+  },
+};
+
+export default function Page() {
+  return (
+    <SubPage
+      eyebrow="About"
+      title="Our Clinics & Branches"
+      subtitle="Calm, modern, sound-treated spaces designed to feel a world away from the typical clinic — now in four convenient locations."
+    >
+      <div className="overflow-hidden rounded-3xl border border-border shadow-card">
+        <img src={clinic} alt="Warm, modern Linaw Dinig hearing clinic waiting area" loading="lazy" width={1280} height={896} className="aspect-[16/9] w-full object-cover" />
+      </div>
+      <div className="grid gap-5 md:grid-cols-3">
+        <InfoCard title="Quiet & comfortable">A sound-treated test room and comfortable seating throughout.</InfoCard>
+        <InfoCard title="Accessible">Step-free access, wide doorways and easy parking.</InfoCard>
+        <InfoCard title="Family-friendly">Bring a partner or family member — we love a second pair of ears.</InfoCard>
+      </div>
+
+      <h2 className="text-2xl md:text-3xl">Find a branch near you</h2>
+      <p>
+        Linaw Dinig Hearing Aid Center serves communities across the Philippines from four branches. Walk in or book
+        ahead — our team is ready to welcome you for a free hearing consultation.
+      </p>
+      <div className="grid gap-6 sm:grid-cols-2">
+        {BRANCHES.map((b) => (
+          <div key={b.name} className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+            <img
+              src={b.image}
+              alt={`Map of ${b.name.replace(" (Main Office)", "")}, location of Linaw Dinig Hearing Aid Center`}
+              loading="lazy"
+              width={1100}
+              height={1100}
+              className="aspect-[16/10] w-full object-cover"
+            />
+            <div className="flex flex-1 flex-col p-6">
+              <h3 className="text-xl">
+                {b.name}
+                {b.main && (
+                  <span className="ml-2 rounded-full bg-accent px-2 py-0.5 align-middle text-[10px] font-bold uppercase tracking-wide text-accent-foreground">
+                    Main
+                  </span>
+                )}
+              </h3>
+              <ul className="mt-3 space-y-2 text-base text-muted-foreground">
+                <li className="flex gap-2"><MapPin className="mt-0.5 size-5 shrink-0 text-primary" /><span>{b.address}</span></li>
+                <li className="flex gap-2"><Phone className="mt-0.5 size-5 shrink-0 text-primary" /><a href={b.phoneHref} className="hover:text-primary">{b.phone}</a></li>
+                <li className="flex gap-2"><Clock className="mt-0.5 size-5 shrink-0 text-primary" /><span>{b.hours}</span></li>
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </SubPage>
+  );
+}
