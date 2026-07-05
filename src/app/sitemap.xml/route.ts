@@ -1,8 +1,11 @@
+import { BRANCHES } from "@/lib/company";
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
 const PATHS = [
   "/",
   "/book",
+  ...BRANCHES.map((b) => `/branches/${b.slug}`),
   "/services",
   "/services/hearing-evaluation",
   "/services/hearing-aid-fittings",

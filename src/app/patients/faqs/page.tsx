@@ -3,6 +3,17 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/site/PageHero";
 import { FAQ } from "@/components/site/FAQ";
 import { CtaStrip } from "@/components/site/CtaStrip";
+import { FAQS } from "@/lib/faqs";
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 
 export const metadata: Metadata = {
   title: "FAQs — Hearing Tests, Hearing Aids & More",
@@ -16,6 +27,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <PageHero eyebrow="For Patients" title="Frequently Asked Questions" subtitle="Quick, honest answers to the things people ask us most." />
       <FAQ />
       <CtaStrip />

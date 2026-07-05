@@ -102,7 +102,9 @@ export function SiteFooter() {
             {BRANCHES.map((b) => (
               <li key={b.name} className="text-sm text-primary-foreground/85">
                 <p className="font-bold text-primary-foreground">
-                  {b.name}
+                  <Link href={`/branches/${b.slug}`} className="hover:text-accent">
+                    {b.name}
+                  </Link>
                   {b.main && (
                     <span className="ml-2 rounded-full bg-accent px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-foreground">
                       Main

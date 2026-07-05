@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { MapPin, Phone, Clock } from "lucide-react";
 
 import { SubPage } from "@/components/site/SubPage";
@@ -69,6 +70,9 @@ export default function Page() {
                 <li className="flex gap-2"><Phone className="mt-0.5 size-5 shrink-0 text-primary" /><a href={b.phoneHref} className="hover:text-primary">{b.phone}</a></li>
                 <li className="flex gap-2"><Clock className="mt-0.5 size-5 shrink-0 text-primary" /><span>{b.hours}</span></li>
               </ul>
+              <Link href={`/branches/${b.slug}`} className="mt-4 inline-block text-sm font-bold text-primary underline-offset-4 hover:underline">
+                View branch page →
+              </Link>
             </div>
           </div>
         ))}
