@@ -18,7 +18,7 @@ const NAV: NavItem[] = [
     to: "/services",
     children: [
       { label: "Hearing Evaluation (Adult & Pediatric)", to: "/services/hearing-evaluation" },
-      { label: "Hearing Aid Fitting & Customization", to: "/services/hearing-aid-fittings" },
+      { label: "Hearing Aid Counseling & Fitting", to: "/services/hearing-aid-fittings" },
       { label: "Hearing Aid Repair & Maintenance", to: "/services/hearing-aid-repairs" },
       { label: "Follow-up Care & Counseling", to: "/services/follow-up-care" },
       { label: "Assistive Listening Devices & Accessories", to: "/services/assistive-listening-devices" },
@@ -38,7 +38,7 @@ const NAV: NavItem[] = [
     to: "/about",
     children: [
       { label: "Our Audiologists", to: "/about/audiologists" },
-      { label: "Our Clinic", to: "/about/clinic" },
+      { label: "Our Clinics", to: "/about/clinic" },
       { label: "Why Choose Us", to: "/about/why-choose-us" },
     ],
   },

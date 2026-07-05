@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Linaw Dinig Hearing Aid Center — Clear Hearing. Better Living.",
     description:
-      "Free consultations, expert fittings and ongoing hearing care from licensed audiologists across the Philippines.",
+      "Expert hearing tests, fittings and ongoing hearing care from qualified audiologists across the Philippines.",
     type: "website",
   },
   twitter: {

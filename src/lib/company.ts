@@ -8,7 +8,7 @@ export const COMPANY = {
   tagline: "Clear Hearing. Better Living.",
   nameMeaning: "Clear Hearing",
   industry: "Healthcare / Hearing Solutions",
-  established: "June 14, 2021",
+  established: "June 2021",
   email: "linaw.dinig.hac@gmail.com",
   // Primary contact number (Tanay main office)
   phone: "0917 553 2999",
@@ -21,6 +21,7 @@ export const COMPANY = {
 
 export type Branch = {
   name: string;
+  shortName: string;
   main?: boolean;
   address: string;
   phone: string;
@@ -28,12 +29,14 @@ export type Branch = {
   hours: string;
   facebookLabel: string;
   facebookHref: string;
+  reviewsHref?: string;
   image: string;
 };
 
 export const BRANCHES: Branch[] = [
   {
     name: "Tanay, Rizal (Main Office)",
+    shortName: "Tanay",
     main: true,
     address:
       "98 Unit B G-Complex Sampaloc Rd., Brgy. Plaza Aldea, Tanay, Rizal 1980",
@@ -42,10 +45,12 @@ export const BRANCHES: Branch[] = [
     hours: "Monday to Friday, 9AM – 5PM",
     facebookLabel: "Linaw Dinig Hearing Aid Center – Tanay",
     facebookHref: "https://web.facebook.com/linawdinigtanay/",
+    reviewsHref: "https://tinyurl.com/Tanay-Reviews",
     image: "/assets/branch-tanay.webp",
   },
   {
     name: "Cebu City, Cebu",
+    shortName: "Cebu",
     address:
       "3rd Flr. Anchor Lab Medical Center, Aspac Bldg., N. Bacalso Ave., Sambag I, Cebu City, Cebu",
     phone: "0917 851 8899",
@@ -53,10 +58,12 @@ export const BRANCHES: Branch[] = [
     hours: "Monday to Friday, 9AM – 5PM",
     facebookLabel: "Linaw Dinig Hearing Aid Center – Cebu",
     facebookHref: "https://web.facebook.com/linawdinigcebu/",
+    reviewsHref: "https://tinyurl.com/Cebu-Review",
     image: "/assets/branch-cebu.webp",
   },
   {
     name: "Dasmariñas City, Cavite",
+    shortName: "Dasma",
     address:
       "2nd Flr. JaroMed and Diagnostic Center, GRJ Jaro Bldg., Aguinaldo Highway, Salitran I, Dasmariñas City, Cavite",
     phone: "0917 770 0288",
@@ -64,10 +71,12 @@ export const BRANCHES: Branch[] = [
     hours: "By Appointment, 9AM – 5PM",
     facebookLabel: "Linaw Dinig Hearing Aid Center – Dasma",
     facebookHref: "https://web.facebook.com/linawdinigdasma/",
+    reviewsHref: "https://tinyurl.com/DasmaGoogleReview",
     image: "/assets/branch-dasmarinas.webp",
   },
   {
     name: "Rosario, La Union",
+    shortName: "La Union",
     address:
       "Rosario Diagnostic Center, MacArthur Highway, Rosario, La Union",
     phone: "0917 620 9898",

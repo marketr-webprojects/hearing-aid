@@ -4,10 +4,10 @@ import { BadgeCheck, Headphones, HandHeart, ShieldCheck, Wallet } from "lucide-r
 
 const ITEMS = [
   { icon: BadgeCheck, label: "Qualified & Registered Audiologists" },
-  { icon: Headphones, label: "All Major Hearing Aid Brands" },
-  { icon: ShieldCheck, label: "Free Hearing Assessments" },
+  { icon: Headphones, label: "Trusted Hearing Aid Brands" },
+  { icon: ShieldCheck, label: "Comprehensive Hearing Assessments" },
   { icon: HandHeart, label: "Aftercare & Ongoing Support" },
-  { icon: Wallet, label: "Private & Rebate Options Available" },
+  { icon: Wallet, label: "Flexible Payment Options" },
 ];
 
 export function TrustBar() {

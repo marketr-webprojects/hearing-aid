@@ -6,6 +6,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { Check, Phone } from "lucide-react";
 import { PHONE, PHONE_HREF } from "@/components/site/SiteHeader";
+import { BRANCHES } from "@/lib/company";
 
 const schema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(60),
@@ -74,7 +75,7 @@ export default function BookPage() {
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-primary/80">Book Online · Under 2 minutes</p>
           <h1 className="mt-2 text-4xl md:text-5xl">Book Your Appointment</h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Your first hearing test is completely free with no obligation to purchase.
+            Choose your preferred clinic and time — we&rsquo;ll confirm within one business day.
           </p>
         </div>
       </section>
@@ -82,9 +83,6 @@ export default function BookPage() {
       <section className="bg-background py-16 md:py-20">
         <div className="mx-auto max-w-3xl px-4 md:px-6">
           <form onSubmit={onSubmit} className="space-y-6 rounded-3xl border border-border bg-card p-6 shadow-card md:p-10" noValidate>
-            <div className="rounded-xl bg-primary-soft px-4 py-3 text-sm font-semibold text-primary">
-              Your first hearing test is completely free with no obligation to purchase.
-            </div>
             <div className="grid gap-5 sm:grid-cols-2">
               <Field id="firstName" label="First Name" error={errors.firstName}><input id="firstName" name="firstName" autoComplete="given-name" required className={FIELD} /></Field>
               <Field id="lastName" label="Last Name" error={errors.lastName}><input id="lastName" name="lastName" autoComplete="family-name" required className={FIELD} /></Field>
@@ -100,13 +98,12 @@ export default function BookPage() {
                 </select>
               </Field>
               <Field id="appointmentType" label="Appointment Type" error={errors.appointmentType}>
-                <select id="appointmentType" name="appointmentType" required defaultValue="Free Hearing Consultation" className={FIELD}>
-                  <option>Free Hearing Consultation</option>
+                <select id="appointmentType" name="appointmentType" required defaultValue="Hearing Evaluation (Adult)" className={FIELD}>
                   <option>Hearing Evaluation (Adult)</option>
                   <option>Hearing Evaluation (Pediatric)</option>
-                  <option>Hearing Aid Fitting &amp; Customization</option>
+                  <option>Hearing Aid Counseling &amp; Fitting</option>
                   <option>Hearing Aid Repair &amp; Maintenance</option>
-                  <option>Follow-up Care &amp; Counseling</option>
+                  <option>Follow-up Care</option>
                   <option>Assistive Listening Devices &amp; Accessories</option>
                   <option>Other</option>
                 </select>
@@ -115,7 +112,6 @@ export default function BookPage() {
               <Field id="preferredTime" label="Preferred Time" error={errors.preferredTime}>
                 <select id="preferredTime" name="preferredTime" required defaultValue="Morning" className={FIELD}>
                   <option>Morning</option>
-                  <option>Midday</option>
                   <option>Afternoon</option>
                 </select>
               </Field>
@@ -123,8 +119,8 @@ export default function BookPage() {
                 <select id="hearAbout" name="hearAbout" required defaultValue="Google" className={FIELD}>
                   <option>Google</option>
                   <option>Friend or family</option>
-                  <option>GP referral</option>
-                  <option>Social media</option>
+                  <option>Doctor referral</option>
+                  <option>Social media (Facebook, Tiktok)</option>
                   <option>Existing patient</option>
                   <option>Other</option>
                 </select>
@@ -136,10 +132,17 @@ export default function BookPage() {
             <button type="submit" className="inline-flex w-full items-center justify-center rounded-full bg-cta px-7 py-4 text-base font-bold text-cta-foreground shadow-soft hover:bg-cta-hover">
               Request My Appointment
             </button>
-            <p className="text-center text-sm text-muted-foreground">
-              Prefer to talk? Call us on{" "}
-              <a href={PHONE_HREF} className="font-bold text-primary hover:underline">{PHONE}</a>
-            </p>
+            <div className="text-center text-sm text-muted-foreground">
+              <p>Prefer to talk? Call the branch nearest you:</p>
+              <ul className="mt-2 flex flex-wrap justify-center gap-x-5 gap-y-1">
+                {BRANCHES.map((b) => (
+                  <li key={b.name}>
+                    <span className="font-semibold text-foreground">{b.shortName}:</span>{" "}
+                    <a href={b.phoneHref} className="font-bold text-primary hover:underline">{b.phone}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </form>
         </div>
       </section>

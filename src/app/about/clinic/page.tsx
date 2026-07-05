@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { MapPin, Phone, Clock } from "lucide-react";
 
-import { SubPage, InfoCard } from "@/components/site/SubPage";
+import { SubPage } from "@/components/site/SubPage";
 import { BRANCHES } from "@/lib/company";
-const clinic = "/assets/clinic-interior.webp";
 
 export const metadata: Metadata = {
-  title: "Our Clinics & Branches — Tanay, Cebu, Dasmariñas, La Union | Linaw Dinig",
+  title: "Our Clinics — Tanay, Cebu, Dasmariñas, La Union | Linaw Dinig",
   description:
-    "Visit Linaw Dinig Hearing Aid Center at any of our four branches — Tanay (Rizal), Cebu City, Dasmariñas (Cavite) and Rosario (La Union). Calm, modern, sound-treated clinics designed to put you at ease.",
+    "Visit Linaw Dinig Hearing Aid Center at any of our four clinics — Tanay (Rizal), Cebu City, Dasmariñas (Cavite) and Rosario (La Union). Calm, modern, sound-treated clinics designed to put you at ease.",
   keywords: [
     "hearing aid center Tanay",
     "hearing aid center Cebu",
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
     "hearing clinic Philippines",
   ],
   openGraph: {
-    title: "Our Clinics & Branches",
+    title: "Our Clinics",
     description: "Four welcoming hearing clinics across the Philippines — designed to put you at ease.",
   },
 };
@@ -26,22 +25,24 @@ export default function Page() {
   return (
     <SubPage
       eyebrow="About"
-      title="Our Clinics & Branches"
+      title="Our Clinics"
       subtitle="Calm, modern, sound-treated spaces designed to feel a world away from the typical clinic — now in four convenient locations."
     >
       <div className="overflow-hidden rounded-3xl border border-border shadow-card">
-        <img src={clinic} alt="Warm, modern Linaw Dinig hearing clinic waiting area" loading="lazy" width={1280} height={896} className="aspect-[16/9] w-full object-cover" />
-      </div>
-      <div className="grid gap-5 md:grid-cols-3">
-        <InfoCard title="Quiet & comfortable">A sound-treated test room and comfortable seating throughout.</InfoCard>
-        <InfoCard title="Accessible">Step-free access, wide doorways and easy parking.</InfoCard>
-        <InfoCard title="Family-friendly">Bring a partner or family member — we love a second pair of ears.</InfoCard>
+        <img
+          src="/assets/tanay-front-desk.webp"
+          alt="Front desk of the Linaw Dinig Hearing Aid Center Tanay main office"
+          loading="lazy"
+          width={1200}
+          height={1600}
+          className="aspect-[16/9] w-full object-cover"
+        />
       </div>
 
       <h2 className="text-2xl md:text-3xl">Find a branch near you</h2>
       <p>
-        Linaw Dinig Hearing Aid Center serves communities across the Philippines from four branches. Walk in or book
-        ahead — our team is ready to welcome you for a free hearing consultation.
+        Linaw Dinig Hearing Aid Center serves communities across the Philippines from four clinics. Walk in or book
+        ahead — our team is ready to welcome you for a hearing consultation.
       </p>
       <div className="grid gap-6 sm:grid-cols-2">
         {BRANCHES.map((b) => (

@@ -7,8 +7,8 @@ import { Team } from "@/components/site/Team";
 import { CtaStrip } from "@/components/site/CtaStrip";
 import { Reveal } from "@/components/site/Reveal";
 import { COMPANY } from "@/lib/company";
-const clinic = "/assets/clinic-interior.webp";
-const family = "/assets/family-moment.webp";
+const family = "/assets/about-us.webp";
+const clinic = "/assets/tanay-front-desk.webp";
 
 export const metadata: Metadata = {
   title: "About Us — Trusted Hearing Care in the Philippines",
@@ -33,7 +33,7 @@ export default function Page() {
       <section className="bg-background py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 md:grid-cols-2 md:items-center md:px-6">
           <div className="overflow-hidden rounded-3xl border border-border shadow-card">
-            <img src={family} alt="Older woman laughing with her grandchildren" loading="lazy" width={1280} height={896} className="aspect-[4/3] w-full object-cover" />
+            <img src={family} alt="Three generations of a family laughing together over a shared meal" loading="lazy" width={1408} height={700} className="aspect-[4/3] w-full object-cover" />
           </div>
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-primary/80">Established {COMPANY.established}</p>
@@ -89,7 +89,7 @@ export default function Page() {
             <Link href="/about/clinic" className="mt-6 inline-block rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground hover:bg-primary/90">Tour the clinic</Link>
           </div>
           <div className="overflow-hidden rounded-3xl border border-border shadow-card">
-            <img src={clinic} alt="Warm, modern hearing clinic waiting area" loading="lazy" width={1280} height={896} className="aspect-[4/3] w-full object-cover" />
+            <img src={clinic} alt="Front desk of the Linaw Dinig Hearing Aid Center Tanay main office" loading="lazy" width={1200} height={1600} className="aspect-[4/3] w-full object-cover" />
           </div>
         </div>
       </section>

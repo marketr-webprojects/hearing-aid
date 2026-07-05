@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { SubPage, InfoCard, ImageCard } from "@/components/site/SubPage";
 
 export const metadata: Metadata = {
-  title: "Hearing Aid Fitting & Customization | Linaw Dinig",
+  title: "Hearing Aid Counseling & Fitting | Linaw Dinig",
   description:
     "Tailored hearing aid solutions in the Philippines — matched to your lifestyle, degree of hearing loss and budget. Includes hearing aid counseling, precise fitting and ongoing customization at our Tanay, Cebu, Dasmariñas and La Union branches.",
   keywords: [
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "affordable hearing aids",
   ],
   openGraph: {
-    title: "Hearing Aid Fitting & Customization",
+    title: "Hearing Aid Counseling & Fitting",
     description: "Tailored solutions matched to your lifestyle, hearing loss and budget.",
   },
 };
@@ -23,7 +23,7 @@ export default function Page() {
   return (
     <SubPage
       eyebrow="Services"
-      title="Hearing Aid Fitting & Customization"
+      title="Hearing Aid Counseling & Fitting"
       subtitle="Tailored solutions matched to your lifestyle, degree of hearing loss, and budget."
     >
       <p>
@@ -32,8 +32,9 @@ export default function Page() {
         budget, then fit and fine-tune every device so each sound reaches you exactly as it should.
       </p>
       <p>
-        From the first counseling session to long-term adjustments, our licensed audiologists make sure your hearing aids
-        feel natural, comfortable and genuinely helpful in everyday life — at home, at work and in noisy places.
+        From the first counseling session to long-term adjustments, our qualified audiologist makes sure your hearing
+        aids feel natural, comfortable and genuinely helpful in everyday life — may it be at home, at work, or in noisy
+        places.
       </p>
 
       <div className="grid gap-5 md:grid-cols-2">

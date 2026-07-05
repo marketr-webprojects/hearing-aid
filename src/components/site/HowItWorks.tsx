@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 const STEPS = [
-  { n: "1", title: "Book a Free Hearing Test", body: "No cost, no obligation. A relaxed 45-minute comprehensive assessment." },
+  { n: "1", title: "Book a Hearing Test", body: "A relaxed 45-minute comprehensive assessment." },
   { n: "2", title: "Get Your Results & Recommendation", body: "Your audiologist explains your results clearly and recommends options to suit your lifestyle and budget." },
   { n: "3", title: "Fitted & Supported", body: "Your hearing aids are fitted, fine-tuned, and backed by ongoing aftercare." },
 ];
@@ -27,7 +27,7 @@ export function HowItWorks() {
         </ol>
         <div className="mt-10 text-center">
           <Link href="/book" className="inline-flex items-center justify-center rounded-full bg-cta px-7 py-4 text-base font-bold text-cta-foreground shadow-soft hover:bg-cta-hover">
-            Start with a Free Hearing Test
+            Book Your Hearing Test
           </Link>
         </div>
       </div>

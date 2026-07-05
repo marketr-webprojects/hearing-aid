@@ -15,10 +15,15 @@ export default function Page() {
   return (
     <SubPage eyebrow="For Patients" title="New Patient Information" subtitle="A few small things that make your first visit smooth and stress-free.">
       <div className="grid gap-5 md:grid-cols-2">
-        <InfoCard title="What to bring">Photo ID, any GP referrals (not required), a list of current medications and — if helpful — a family member or friend.</InfoCard>
+        <InfoCard title="What to bring">Doctor&rsquo;s referral for hearing test (if available) and Senior Citizen or PWD ID. It also helps if you tag along a family member or friend.</InfoCard>
         <InfoCard title="Time to allow">Around 60 minutes for a full hearing assessment and chat.</InfoCard>
-        <InfoCard title="Parking & access">Street parking is available, plus a wheelchair-accessible entrance.</InfoCard>
-        <InfoCard title="Fees & rebates">Initial assessments are free. Hearing aid pricing and any rebates are discussed up-front.</InfoCard>
+        <InfoCard title="Parking & access">
+          <span className="block"><strong>Tanay:</strong> Ample parking space and wheelchair accessible.</span>
+          <span className="mt-1 block"><strong>Cebu:</strong> Limited parking space. Not accessible by wheelchair.</span>
+          <span className="mt-1 block"><strong>Dasma:</strong> Limited parking space. Accessible by wheelchair.</span>
+          <span className="mt-1 block"><strong>La Union:</strong> Limited parking space. Limited mobility for wheelchair users.</span>
+        </InfoCard>
+        <InfoCard title="Fees">Each hearing assessment has its corresponding rate. Please call us to know the exact amount.</InfoCard>
       </div>
     </SubPage>
   );

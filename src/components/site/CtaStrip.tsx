@@ -6,7 +6,7 @@ import { PHONE, PHONE_HREF } from "./SiteHeader";
 
 export function CtaStrip({
   title = "Ready to Hear Better?",
-  subtitle = "Book a free, no-obligation hearing assessment with our qualified audiologists.",
+  subtitle = "Book a hearing assessment with our qualified audiologists.",
 }: {
   title?: string;
   subtitle?: string;
@@ -23,7 +23,7 @@ export function CtaStrip({
             href="/book"
             className="inline-flex items-center justify-center rounded-full bg-cta px-7 py-4 text-base font-bold text-cta-foreground shadow-soft hover:bg-cta-hover"
           >
-            Book My Free Hearing Test
+            Book My Hearing Test
           </Link>
           <a href={PHONE_HREF} className="inline-flex items-center gap-2 text-lg font-bold text-primary-foreground hover:text-accent">
             <Phone className="size-5" aria-hidden /> {PHONE}

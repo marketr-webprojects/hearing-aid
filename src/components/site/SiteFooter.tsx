@@ -9,13 +9,16 @@ export function SiteFooter() {
     <footer className="mt-20 border-t border-border bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-2 md:px-6 lg:grid-cols-4">
         <div>
-          <img
-            src="/linawdinig-logo-white.webp"
-            alt={COMPANY.name}
-            width={1429}
-            height={377}
-            className="h-10 w-auto"
-          />
+          {/* Original-color logo kept on purpose — the gold swirl in the "D" is part of the registered trademark. */}
+          <span className="inline-block rounded-xl bg-white px-3 py-2">
+            <img
+              src="/linawdinig-logo.webp"
+              alt={COMPANY.name}
+              width={1429}
+              height={377}
+              className="h-10 w-auto"
+            />
+          </span>
           <p className="mt-3 text-base text-primary-foreground/85">
             {COMPANY.tagline}
           </p>
@@ -31,9 +34,9 @@ export function SiteFooter() {
                 href={b.facebookHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="grid size-10 place-items-center rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20"
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary-foreground/10 px-3 py-2 text-xs font-semibold hover:bg-primary-foreground/20"
               >
-                <Facebook className="size-5" />
+                <Facebook className="size-4" /> {b.shortName}
               </a>
             ))}
           </div>
@@ -76,11 +79,16 @@ export function SiteFooter() {
           <h3 className="mt-6 text-base font-bold text-primary-foreground">
             Get in touch
           </h3>
-          <ul className="mt-4 space-y-3 text-primary-foreground/85">
-            <li className="flex gap-2">
-              <Phone className="mt-0.5 size-5 shrink-0 text-accent" />
-              <a href={COMPANY.phoneHref}>{COMPANY.phone}</a>
-            </li>
+          <ul className="mt-4 space-y-2 text-primary-foreground/85">
+            {BRANCHES.map((b) => (
+              <li key={b.name} className="flex gap-2">
+                <Phone className="mt-0.5 size-5 shrink-0 text-accent" />
+                <span>
+                  <span className="font-bold text-primary-foreground">{b.shortName}:</span>{" "}
+                  <a href={b.phoneHref}>{b.phone}</a>
+                </span>
+              </li>
+            ))}
             <li className="flex gap-2">
               <Mail className="mt-0.5 size-5 shrink-0 text-accent" />
               <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
@@ -122,9 +130,9 @@ export function SiteFooter() {
       <div className="border-t border-primary-foreground/15">
         <div className="mx-auto max-w-7xl px-4 py-6 text-sm text-primary-foreground/70 md:px-6">
           <p>
-            {COMPANY.name} audiologists are qualified and licensed
-            practitioners. All information on this site is general in nature and
-            not a substitute for professional advice.
+            {COMPANY.name} audiologists are qualified practitioners. All
+            information on this site is general in nature and not a substitute
+            for professional advice.
           </p>
           <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
             <span>

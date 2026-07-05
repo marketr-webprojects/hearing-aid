@@ -16,9 +16,9 @@ export default function Page() {
     <SubPage eyebrow="For Patients" title="What to Expect" subtitle="Most people are pleasantly surprised by how relaxed a hearing appointment really is.">
       <ol className="space-y-4 text-lg">
         <li><span className="font-bold text-primary">1. A welcome and chat.</span> We'll ask about your hearing concerns, lifestyle and goals.</li>
-        <li><span className="font-bold text-primary">2. A quick look in your ears.</span> Using a tiny camera to check for wax or anything unusual.</li>
+        <li><span className="font-bold text-primary">2. A quick look in your ears.</span> Using an otoscope to check for wax, ear infection, or anything unusual in your external ears.</li>
         <li><span className="font-bold text-primary">3. Comfortable listening tests.</span> In a sound-treated booth — no needles, nothing scary.</li>
-        <li><span className="font-bold text-primary">4. Plain-English results.</span> Your audiologist explains what we found and your options, with no pressure.</li>
+        <li><span className="font-bold text-primary">4. Jargon-free explanation of results.</span> Your audiologist explains what we found and your options, with no pressure.</li>
         <li><span className="font-bold text-primary">5. Next steps — if any.</span> If hearing aids would help, we'll talk through options and budgets. If not, you'll leave reassured.</li>
       </ol>
     </SubPage>
