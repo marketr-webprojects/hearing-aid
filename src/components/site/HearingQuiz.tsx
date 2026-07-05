@@ -43,6 +43,8 @@ export function HearingQuiz() {
                   src={QUESTIONS[step].img}
                   alt=""
                   loading="lazy"
+                  width={1408}
+                  height={768}
                   className="max-h-56 w-full object-cover"
                   onError={(e) => {
                     e.currentTarget.style.display = "none";

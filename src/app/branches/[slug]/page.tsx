@@ -106,8 +106,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 src={branch.image}
                 alt={`Map showing the location of Linaw Dinig Hearing Aid Center in ${content.place}`}
                 loading="lazy"
-                width={1100}
-                height={1100}
+                width={900}
+                height={900}
                 className="w-full object-cover"
               />
             </div>

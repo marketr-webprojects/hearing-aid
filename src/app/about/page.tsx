@@ -89,7 +89,7 @@ export default function Page() {
             <Link href="/about/clinic" className="mt-6 inline-block rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground hover:bg-primary/90">Tour the clinic</Link>
           </div>
           <div className="overflow-hidden rounded-3xl border border-border shadow-card">
-            <img src={clinic} alt="Front desk of the Linaw Dinig Hearing Aid Center Tanay main office" loading="lazy" width={1200} height={1600} className="aspect-[4/3] w-full object-cover" />
+            <img src={clinic} alt="Front desk of the Linaw Dinig Hearing Aid Center Tanay main office" loading="lazy" width={1000} height={1333} className="aspect-[4/3] w-full object-cover" />
           </div>
         </div>
       </section>

@@ -34,8 +34,8 @@ export default function Page() {
           src="/assets/tanay-front-desk.webp"
           alt="Front desk of the Linaw Dinig Hearing Aid Center Tanay main office"
           loading="lazy"
-          width={1200}
-          height={1600}
+          width={1000}
+          height={1333}
           className="aspect-[16/9] w-full object-cover"
         />
       </div>
@@ -52,8 +52,8 @@ export default function Page() {
               src={b.image}
               alt={`Map of ${b.name.replace(" (Main Office)", "")}, location of Linaw Dinig Hearing Aid Center`}
               loading="lazy"
-              width={1100}
-              height={1100}
+              width={900}
+              height={900}
               className="aspect-[16/10] w-full object-cover"
             />
             <div className="flex flex-1 flex-col p-6">

@@ -22,7 +22,7 @@ export function Testimonials() {
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {QUOTES.map((q) => (
             <figure key={q.name} className="flex h-full flex-col rounded-3xl border border-border bg-card p-7 shadow-card">
-              <div className="flex gap-0.5 text-accent" aria-label="5 out of 5 stars">
+              <div className="flex gap-0.5 text-accent" role="img" aria-label="5 out of 5 stars">
                 {Array.from({ length: 5 }).map((_, i) => (<Star key={i} className="size-5 fill-current" aria-hidden />))}
               </div>
               <blockquote className="mt-4 flex-1 text-lg leading-relaxed text-foreground">&ldquo;{q.text}&rdquo;</blockquote>

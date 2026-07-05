@@ -16,7 +16,7 @@ export function MusicPlayer() {
   const currentRef = useRef<string>("");
   const [userOff, setUserOff] = useState(false);
   const [audible, setAudible] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [hintOpen, setHintOpen] = useState(true);
 
@@ -24,7 +24,9 @@ export function MusicPlayer() {
     const audio = new Audio();
     audioRef.current = audio;
     audio.volume = 0.35;
-    audio.preload = "auto";
+    // "none" keeps the multi-MB track off the critical path — nothing is
+    // downloaded until playback actually starts.
+    audio.preload = "none";
 
     const first = pickRandom();
     currentRef.current = first;
@@ -57,14 +59,13 @@ export function MusicPlayer() {
     audio.addEventListener("ended", onEnded);
 
     // Try to play automatically. Browsers block audible autoplay until a user
-    // gesture, so if that's refused we fall back to a (permitted) muted autoplay
-    // and unmute on the very first interaction with the page.
+    // gesture, so if that's refused we wait for the first interaction and start
+    // then. (No muted-autoplay fallback: it would download the whole track on
+    // page load for nothing.)
     let removeGesture = () => {};
     if (!startOff) {
       audio.muted = false;
       audio.play().catch(() => {
-        audio.muted = true;
-        audio.play().catch(() => {});
         const start = () => {
           if (localStorage.getItem(STORAGE_KEY) === "1") return removeGesture();
           audio.muted = false;
@@ -80,8 +81,6 @@ export function MusicPlayer() {
           window.removeEventListener("touchstart", start);
         };
       });
-    } else {
-      setLoading(false);
     }
 
     return () => {

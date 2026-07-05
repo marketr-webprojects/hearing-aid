@@ -35,8 +35,8 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --font-sans: "Nunito", "Inter", system-ui, sans-serif;
-  --font-display: "Nunito", "Inter", system-ui, sans-serif;
+  --font-sans: var(--font-nunito), "Nunito", system-ui, sans-serif;
+  --font-display: var(--font-nunito), "Nunito", system-ui, sans-serif;
 }
 
 :root {
@@ -52,9 +52,10 @@
   --primary-soft: oklch(0.93 0.03 200);
   --secondary: oklch(0.85 0.06 235);
   --secondary-foreground: oklch(0.22 0.04 220);
-  --cta: oklch(0.62 0.13 155);
+  /* L=0.54 keeps white button text at >=4.5:1 (WCAG AA) — don't lighten. */
+  --cta: oklch(0.54 0.13 155);
   --cta-foreground: oklch(0.99 0.005 155);
-  --cta-hover: oklch(0.55 0.14 155);
+  --cta-hover: oklch(0.48 0.14 155);
   --muted: oklch(0.95 0.012 90);
   --muted-foreground: oklch(0.42 0.03 220);
   --accent: oklch(0.78 0.13 80);

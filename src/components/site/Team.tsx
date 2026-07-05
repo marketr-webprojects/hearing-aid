@@ -76,6 +76,8 @@ export function Team() {
                   src={m.img}
                   alt={`Portrait of ${m.name}`}
                   loading="lazy"
+                  width={400}
+                  height={400}
                   className="relative size-full object-cover object-top"
                   onError={(e) => {
                     e.currentTarget.style.display = "none";

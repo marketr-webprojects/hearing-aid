@@ -74,6 +74,7 @@ function Hero() {
               alt="Audiologist smiling with an elderly patient in a warmly lit clinic room"
               width={1536}
               height={1024}
+              fetchPriority="high"
               className="aspect-[4/3] w-full object-cover"
             />
           </div>

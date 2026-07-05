@@ -58,7 +58,7 @@ export function ImageCard({
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card">
       <div className="overflow-hidden bg-muted">
-        <img src={img} alt={alt} loading="lazy" className={`${ratio} w-full object-cover`} />
+        <img src={img} alt={alt} loading="lazy" width={1280} height={800} className={`${ratio} w-full object-cover`} />
       </div>
       <div className="flex flex-1 flex-col p-6">
         <h3 className="text-xl">{title}</h3>
