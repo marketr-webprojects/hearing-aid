@@ -16,7 +16,13 @@
    on conflict (user_id) do update set role = 'admin';
    ```
 
-5. `npm run dev` → sign in at `/admin/login`.
+5. (Optional but recommended) Paste the whole of `seed.sql` into the SQL
+   Editor and **Run**. It populates `branches`, `team_members`,
+   `testimonials` and `faqs` with the site's current default content so it
+   shows up in the admin ready to edit. Idempotent — branches upsert by
+   slug, the other tables only seed while empty, so it never duplicates
+   rows or overwrites admin edits.
+6. `npm run dev` → sign in at `/admin/login`.
 
 Tables: `user_profiles`, `activity_logs`, `site_settings`, `faqs`,
 `testimonials`, `team_members`, `branches`, `messages`, `page_content`,
