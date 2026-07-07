@@ -1,6 +1,9 @@
-// Shared FAQ content — rendered by the FAQ accordion and emitted as
-// FAQPage JSON-LD structured data on /patients/faqs.
-export const FAQS = [
+// Shared FAQ content — client-safe type + in-code defaults. The FAQ accordion
+// and the FAQPage JSON-LD on /patients/faqs render whatever the server reader
+// (faqs.server.ts) returns: DB rows when present, these defaults otherwise.
+export type Faq = { q: string; a: string };
+
+export const DEFAULT_FAQS: Faq[] = [
   { q: "How much does a hearing test cost?", a: "Hearing test prices can range from 550 pesos up to 8,000 pesos depending on the required hearing test procedure. Message us to know the exact test price." },
   { q: "How much do hearing aids cost, and are there payment options?", a: "Hearing aid price varies depending on the following factors — degree of hearing loss, technology level, visibility when wearing the devices, and connectivity. Send us a copy of your latest hearing test result so we can quote you accordingly. Several flexible payment options are available such as cash, GCash, bank transfer or deposit, debit card, and credit card. We accept major cards such as Mastercard and Visa." },
   { q: "What happens at a hearing test?", a: "We start with a friendly chat about your hearing concerns, take a look in your ears, then run a series of comfortable hearing tests. Your audiologist explains the results in plain language and discusses your options." },
@@ -12,3 +15,6 @@ export const FAQS = [
   { q: "Do you test children's hearing?", a: "Yes. We provide comprehensive pediatric hearing evaluation — including newborn hearing screening, play audiometry, ABR/BAER and ASSR — because early detection and intervention give every child the best start." },
   { q: "Do I need a referral to book an appointment?", a: "No referral needed. You're welcome to book directly with us." },
 ];
+
+// Back-compat alias for existing imports.
+export const FAQS = DEFAULT_FAQS;

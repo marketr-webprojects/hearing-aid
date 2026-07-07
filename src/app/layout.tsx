@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -8,37 +9,6 @@ const nunito = Nunito({
   display: "swap",
   variable: "--font-nunito",
 });
-
-import { SiteHeader } from "@/components/site/SiteHeader";
-import { SiteFooter } from "@/components/site/SiteFooter";
-import { MusicPlayer } from "@/components/site/MusicPlayer";
-import { Providers } from "./providers";
-import { COMPANY, BRANCHES } from "@/lib/company";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
-// Machine-readable hours per branch (Dasma is by appointment, so omitted).
-const OPENING_HOURS: Record<string, string | undefined> = {
-  Tanay: "Mo-Fr 09:00-17:00",
-  Cebu: "Mo-Fr 09:00-17:00",
-  "La Union": "Mo-Fr 09:00-16:00",
-};
-
-const businessJsonLd = {
-  "@context": "https://schema.org",
-  "@graph": BRANCHES.map((b) => ({
-    "@type": "MedicalBusiness",
-    name: `${COMPANY.name} — ${b.shortName}`,
-    parentOrganization: { "@type": "Organization", name: COMPANY.name, url: SITE_URL },
-    url: SITE_URL,
-    logo: `${SITE_URL}/linawdinig-logo.webp`,
-    telephone: b.phone,
-    email: COMPANY.email,
-    address: { "@type": "PostalAddress", streetAddress: b.address, addressCountry: "PH" },
-    ...(OPENING_HOURS[b.shortName] ? { openingHours: OPENING_HOURS[b.shortName] } : {}),
-    sameAs: [b.facebookHref, COMPANY.social.tiktokHref],
-  })),
-};
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
@@ -68,17 +38,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <noscript>
           <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
         </noscript>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }} />
       </head>
       <body>
-        <Providers>
-          <div className="flex min-h-dvh flex-col">
-            <SiteHeader />
-            <main className="flex-1">{children}</main>
-            <SiteFooter />
-          </div>
-          <MusicPlayer />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

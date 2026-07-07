@@ -146,6 +146,9 @@ export function SiteFooter() {
             <a href="#" className="hover:text-accent">
               Terms
             </a>
+            <Link href="/admin" className="hover:text-accent">
+              Admin
+            </Link>
           </div>
         </div>
       </div>
