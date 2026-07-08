@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { TopProgressBar } from "@/components/TopProgressBar";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </noscript>
       </head>
       <body>
+        <TopProgressBar />
         <Providers>{children}</Providers>
       </body>
     </html>
