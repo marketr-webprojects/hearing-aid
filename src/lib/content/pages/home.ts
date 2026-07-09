@@ -63,7 +63,7 @@ export const HOME: PageDef<HomeContent> = {
     heroImageAlt: "Audiologist smiling with an elderly patient in a warmly lit clinic room",
     heroPrimaryCta: "Book a Hearing Test",
     heroSecondaryCta: "Explore Our Services",
-    trustLine: "ZZMARK_HOME_DEFAULT Trusted by 5,000+ patients · Qualified Audiologists · Independent Private Practice",
+    trustLine: "Trusted by 5,000+ patients · Qualified Audiologists · Independent Private Practice",
 
     reviewsLabel: "Google Reviews",
     reviewsRating: "4.9",
