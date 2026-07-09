@@ -88,7 +88,7 @@ export const SHARED: PageDef<SharedContent> = {
       { icon: "Wallet", label: "Flexible Payment Options" },
     ],
 
-    brandsTitle: "Hearing Aids",
+    brandsTitle: "ZZMARK_SHARED_DEFAULT",
     brandsSubtitle:
       "We are an independent, private practice — we recommend the right aid for you, not necessarily the most expensive one.",
     brands: ["Unitron", "Bernafon", "Beltone"],

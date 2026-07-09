@@ -39,12 +39,17 @@ type BranchPageCopy = {
   seoDescription: string;
 };
 
-/** In-code fallback for the branch-page copy now stored on the branches table. */
-const PAGE_COPY: Record<string, BranchPageCopy> = {
+/**
+ * In-code fallback for the branch-page copy now stored on the branches table.
+ * Used when a row has no copy of its own — i.e. before supabase/all.sql has
+ * been re-run to add and backfill the columns. Same rule as the other tables:
+ * blank in the DB means "use the built-in copy".
+ */
+export const BRANCH_PAGE_COPY: Record<string, BranchPageCopy> = {
   tanay: {
     place: "Tanay, Rizal",
     heroSubtitle:
-      "Our main office — serving Tanay, Baras, Pililla, Morong, Antipolo and the wider Rizal province since June 2021.",
+      "ZZMARK_BRANCH_DEFAULT Our main office — serving Tanay, Baras, Pililla, Morong, Antipolo and the wider Rizal province since June 2021.",
     about: [
       "The Tanay branch is where Linaw Dinig began in June 2021, and it remains our main office today. You'll find us at the G-Complex along Sampaloc Road in Brgy. Plaza Aldea — with ample parking and a wheelchair-accessible entrance, so getting to your appointment is the easy part.",
       "As the main office, Tanay offers our complete range of services: comprehensive hearing evaluations for adults and children, newborn hearing screening, hearing aid counseling and fitting, in-clinic repairs and maintenance, and ongoing follow-up care. Our lead audiologist and Tanay-based audiometrist Rica Roxas — a certified newborn hearing screening personnel — see patients here Monday to Friday.",
@@ -97,7 +102,7 @@ export function placeOf(branch: Pick<Branch, "name" | "place">): string {
 }
 
 export const DEFAULT_BRANCHES: Branch[] = COMPANY_BRANCHES.map((b) => {
-  const copy = PAGE_COPY[b.slug];
+  const copy = BRANCH_PAGE_COPY[b.slug];
   return {
     slug: b.slug,
     name: b.name,

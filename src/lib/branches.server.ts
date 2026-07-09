@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { telHref } from "@/lib/settings";
-import { DEFAULT_BRANCHES, type Branch } from "@/lib/branches";
+import { BRANCH_PAGE_COPY, DEFAULT_BRANCHES, type Branch } from "@/lib/branches";
 
 /**
  * Selected with `*` on purpose: the branch-page columns (place, hero_subtitle,
@@ -30,6 +30,9 @@ type BranchRow = {
 };
 
 function rowToBranch(row: BranchRow): Branch {
+  // Blank branch-page copy means "not set" — fall back to the built-in copy,
+  // which also keeps the pages intact before the columns exist.
+  const copy = BRANCH_PAGE_COPY[row.slug];
   return {
     slug: row.slug,
     name: row.name,
@@ -45,11 +48,11 @@ function rowToBranch(row: BranchRow): Branch {
     facebookHref: row.facebook_href,
     reviewsHref: row.reviews_href ?? undefined,
     image: row.image,
-    place: row.place ?? "",
-    heroSubtitle: row.hero_subtitle ?? "",
-    about: row.about ?? [],
+    place: row.place || copy?.place || "",
+    heroSubtitle: row.hero_subtitle || copy?.heroSubtitle || "",
+    about: row.about?.length ? row.about : (copy?.about ?? []),
     seoTitle: row.seo_title ?? "",
-    seoDescription: row.seo_description ?? "",
+    seoDescription: row.seo_description || copy?.seoDescription || "",
   };
 }
 
