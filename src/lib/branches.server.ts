@@ -2,6 +2,11 @@ import { createClient } from "@/lib/supabase/server";
 import { telHref } from "@/lib/settings";
 import { DEFAULT_BRANCHES, type Branch } from "@/lib/branches";
 
+/**
+ * Selected with `*` on purpose: the branch-page columns (place, hero_subtitle,
+ * about, seo_*) are added by a later migration, and naming them explicitly
+ * would make the whole query fail on a database that hasn't run it yet.
+ */
 type BranchRow = {
   slug: string;
   name: string;
@@ -17,6 +22,11 @@ type BranchRow = {
   facebook_href: string;
   reviews_href: string | null;
   image: string;
+  place?: string | null;
+  hero_subtitle?: string | null;
+  about?: string[] | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
 };
 
 function rowToBranch(row: BranchRow): Branch {
@@ -35,6 +45,11 @@ function rowToBranch(row: BranchRow): Branch {
     facebookHref: row.facebook_href,
     reviewsHref: row.reviews_href ?? undefined,
     image: row.image,
+    place: row.place ?? "",
+    heroSubtitle: row.hero_subtitle ?? "",
+    about: row.about ?? [],
+    seoTitle: row.seo_title ?? "",
+    seoDescription: row.seo_description ?? "",
   };
 }
 
@@ -44,9 +59,7 @@ export async function getBranches(): Promise<Branch[]> {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("branches")
-      .select(
-        "slug, name, short_name, is_main, address, phone, phone_href, hours, opening_hours, access, facebook_label, facebook_href, reviews_href, image"
-      )
+      .select("*")
       .eq("is_published", true)
       .order("display_order", { ascending: true });
 

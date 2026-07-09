@@ -1,11 +1,10 @@
-import { BRANCHES } from "@/lib/company";
+import { getBranches } from "@/lib/branches.server";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
-const PATHS = [
-  "/",
-  "/book",
-  ...BRANCHES.map((b) => `/branches/${b.slug}`),
+const LEADING_PATHS = ["/", "/book"];
+
+const TRAILING_PATHS = [
   "/services",
   "/services/hearing-evaluation",
   "/services/hearing-aid-fittings",
@@ -22,11 +21,18 @@ const PATHS = [
   "/about/why-choose-us",
 ];
 
-export function GET() {
+export async function GET() {
+  const branches = await getBranches();
+  const paths = [
+    ...LEADING_PATHS,
+    ...branches.map((b) => `/branches/${b.slug}`),
+    ...TRAILING_PATHS,
+  ];
+
   const xml = [
     `<?xml version="1.0" encoding="UTF-8"?>`,
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
-    ...PATHS.map(
+    ...paths.map(
       (p) => `  <url><loc>${BASE_URL}${p}</loc><changefreq>weekly</changefreq></url>`,
     ),
     `</urlset>`,

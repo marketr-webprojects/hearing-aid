@@ -19,6 +19,12 @@ export type BranchFields = {
   facebook_href: string;
   reviews_href: string | null;
   image: string;
+  /** Copy + SEO for the branch's own /branches/[slug] page. */
+  place: string;
+  hero_subtitle: string;
+  about: string[];
+  seo_title: string;
+  seo_description: string;
   is_published: boolean;
 };
 

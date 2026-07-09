@@ -2,7 +2,7 @@
 
 import { Phone } from "lucide-react";
 import Link from "next/link";
-import { PHONE, PHONE_HREF } from "./SiteHeader";
+import { usePhone } from "./SettingsProvider";
 
 export function CtaStrip({
   title = "Ready to Hear Better?",
@@ -11,6 +11,8 @@ export function CtaStrip({
   title?: string;
   subtitle?: string;
 }) {
+  const { phone, phoneHref } = usePhone();
+
   return (
     <section className="bg-gradient-cta text-primary-foreground">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 md:grid-cols-[1fr_auto] md:items-center md:px-6 md:py-20">
@@ -25,8 +27,8 @@ export function CtaStrip({
           >
             Book My Hearing Test
           </Link>
-          <a href={PHONE_HREF} className="inline-flex items-center gap-2 text-lg font-bold text-primary-foreground hover:text-accent">
-            <Phone className="size-5" aria-hidden /> {PHONE}
+          <a href={phoneHref} className="inline-flex items-center gap-2 text-lg font-bold text-primary-foreground hover:text-accent">
+            <Phone className="size-5" aria-hidden /> {phone}
           </a>
         </div>
       </div>

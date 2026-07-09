@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import { SubPage } from "./SubPage";
 import { PageHero } from "./PageHero";
-import { getPageData } from "@/lib/content/page-content.server";
+import { getPageContent } from "@/lib/content/page-content.server";
+import type { BaseContent } from "@/lib/content/types";
 
 /**
  * Server wrappers that render a page hero from the CMS-editable page content
@@ -16,7 +17,7 @@ export async function CmsSubPage({
   cta?: boolean;
   children: ReactNode;
 }) {
-  const content = await getPageData(pageKey);
+  const content = await getPageContent<BaseContent>(pageKey);
   return (
     <SubPage
       eyebrow={content.eyebrow}
@@ -30,7 +31,7 @@ export async function CmsSubPage({
 }
 
 export async function CmsPageHero({ pageKey }: { pageKey: string }) {
-  const content = await getPageData(pageKey);
+  const content = await getPageContent<BaseContent>(pageKey);
   return (
     <PageHero
       eyebrow={content.eyebrow}

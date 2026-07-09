@@ -4,31 +4,35 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { savePageContent, resetPageContent } from "../actions";
-import type { PageDef, PageContentData } from "@/lib/content/registry";
+import { fieldGroupsFor, type AnyPageDef } from "@/lib/content/registry";
+import { SchemaField } from "@/components/admin/SchemaFields";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Check, ExternalLink, RotateCcw } from "lucide-react";
+
+type Content = Record<string, unknown>;
 
 export default function PageEditor({
   def,
   initial,
   customised,
 }: {
-  def: PageDef;
-  initial: PageContentData;
+  def: AnyPageDef;
+  initial: Content;
   customised: boolean;
 }) {
   const router = useRouter();
-  const [form, setForm] = useState<PageContentData>(initial);
+  const [form, setForm] = useState<Content>(initial);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [resetting, setResetting] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  function set<K extends keyof PageContentData>(key: K, value: PageContentData[K]) {
+  const groups = fieldGroupsFor(def);
+  /** Pseudo-pages like Shared sections have no public route of their own. */
+  const isRoute = def.path.startsWith("/");
+
+  function set(key: string, value: unknown) {
     setForm((prev) => ({ ...prev, [key]: value }));
     setSaved(false);
   }
@@ -72,57 +76,34 @@ export default function PageEditor({
               Customised
             </span>
           )}
-          <Link
-            href={def.path}
-            target="_blank"
-            className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
-          >
-            {def.path} <ExternalLink className="h-3.5 w-3.5" />
-          </Link>
+          {isRoute ? (
+            <Link
+              href={def.path}
+              target="_blank"
+              className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+            >
+              {def.path} <ExternalLink className="h-3.5 w-3.5" />
+            </Link>
+          ) : (
+            <span className="text-sm text-muted-foreground">Appears on several pages</span>
+          )}
         </div>
       </div>
 
-      <Section title="Page headline (hero)">
-        <div className="space-y-4">
-          <FieldWrap label="Eyebrow (small text above the title)">
-            <Input
-              value={form.eyebrow}
-              onChange={(e) => set("eyebrow", e.target.value)}
-            />
-          </FieldWrap>
-          <FieldWrap label="Title">
-            <Input
-              value={form.title}
-              onChange={(e) => set("title", e.target.value)}
-            />
-          </FieldWrap>
-          <FieldWrap label="Subtitle">
-            <Textarea
-              rows={3}
-              value={form.subtitle}
-              onChange={(e) => set("subtitle", e.target.value)}
-            />
-          </FieldWrap>
-        </div>
-      </Section>
-
-      <Section title="Search engines (SEO)">
-        <div className="space-y-4">
-          <FieldWrap label="SEO title (browser tab & Google result)">
-            <Input
-              value={form.seoTitle}
-              onChange={(e) => set("seoTitle", e.target.value)}
-            />
-          </FieldWrap>
-          <FieldWrap label="SEO description (snippet under the Google result)">
-            <Textarea
-              rows={3}
-              value={form.seoDescription}
-              onChange={(e) => set("seoDescription", e.target.value)}
-            />
-          </FieldWrap>
-        </div>
-      </Section>
+      {groups.map((group) => (
+        <Section key={group.label} title={group.label}>
+          <div className="space-y-5">
+            {group.fields.map((field) => (
+              <SchemaField
+                key={field.key}
+                field={field}
+                value={form[field.key]}
+                onChange={(v) => set(field.key, v)}
+              />
+            ))}
+          </div>
+        </Section>
+      ))}
 
       {error && (
         <p className="mt-4 rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
@@ -145,12 +126,7 @@ export default function PageEditor({
               <span className="text-xs text-muted-foreground">
                 Discard edits and use the built-in copy?
               </span>
-              <Button
-                type="button"
-                size="sm"
-                variant="ghost"
-                onClick={() => setConfirmReset(false)}
-              >
+              <Button type="button" size="sm" variant="ghost" onClick={() => setConfirmReset(false)}>
                 Cancel
               </Button>
               <Button
@@ -165,12 +141,7 @@ export default function PageEditor({
             </span>
           ) : (
             customised && (
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                onClick={() => setConfirmReset(true)}
-              >
+              <Button type="button" size="sm" variant="outline" onClick={() => setConfirmReset(true)}>
                 <RotateCcw className="h-3.5 w-3.5" /> Reset to defaults
               </Button>
             )
@@ -181,13 +152,7 @@ export default function PageEditor({
   );
 }
 
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mb-6 rounded-xl border border-border bg-card p-5">
       <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
@@ -195,20 +160,5 @@ function Section({
       </h2>
       {children}
     </section>
-  );
-}
-
-function FieldWrap({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <Label>{label}</Label>
-      {children}
-    </div>
   );
 }

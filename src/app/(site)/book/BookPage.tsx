@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { z } from "zod";
 import { Check, Phone } from "lucide-react";
-import { PHONE, PHONE_HREF } from "@/components/site/SiteHeader";
-import { BRANCHES } from "@/lib/company";
+import { useBranches, usePhone } from "@/components/site/SettingsProvider";
+import type { BookContent } from "@/lib/content/registry";
 import { requestAppointment, type AppointmentRequest } from "./actions";
 
 const schema = z.object({
@@ -26,19 +26,15 @@ const schema = z.object({
 const FIELD = "h-12 w-full rounded-xl border-2 border-input bg-card px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none";
 const LABEL = "block text-sm font-bold text-foreground";
 
-export default function BookPage({
-  eyebrow = "Book Online · Under 2 minutes",
-  title = "Book Your Appointment",
-  subtitle = "Choose your preferred clinic and time — we'll confirm within one business day.",
-}: {
-  eyebrow?: string;
-  title?: string;
-  subtitle?: string;
-}) {
+export default function BookPage({ content }: { content: BookContent }) {
+  const { eyebrow, title, subtitle } = content;
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const { phone, phoneHref } = usePhone();
+  const branches = useBranches();
+  const defaultClinic = (branches.find((b) => b.main) ?? branches[0])?.name;
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -72,14 +68,14 @@ export default function BookPage({
           <div className="mx-auto grid size-16 place-items-center rounded-full bg-cta text-cta-foreground shadow-soft">
             <Check className="size-8" aria-hidden />
           </div>
-          <h1 className="mt-6 text-3xl md:text-4xl">Thanks — your request is in!</h1>
+          <h1 className="mt-6 text-3xl md:text-4xl">{content.successTitle}</h1>
           <p className="mt-3 text-lg text-muted-foreground">
-            We'll be in touch within one business day to confirm your appointment. If you'd like to chat sooner, call us on {PHONE}.
+            {content.successBody.replace("{phone}", phone)}
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/" className="rounded-full border-2 border-primary px-6 py-3 text-base font-bold text-primary hover:bg-primary-soft">Back to home</Link>
-            <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-cta px-6 py-3 text-base font-bold text-cta-foreground shadow-soft hover:bg-cta-hover">
-              <Phone className="size-4" /> {PHONE}
+            <a href={phoneHref} className="inline-flex items-center gap-2 rounded-full bg-cta px-6 py-3 text-base font-bold text-cta-foreground shadow-soft hover:bg-cta-hover">
+              <Phone className="size-4" /> {phone}
             </a>
           </div>
         </div>
@@ -107,39 +103,32 @@ export default function BookPage({
               <Field id="email" label="Email" error={errors.email}><input id="email" name="email" type="email" autoComplete="email" required className={FIELD} /></Field>
               <Field id="dob" label="Date of Birth" error={errors.dob}><input id="dob" name="dob" type="date" required className={FIELD} /></Field>
               <Field id="location" label="Preferred Clinic" error={errors.location}>
-                <select id="location" name="location" required defaultValue="Tanay, Rizal (Main Office)" className={FIELD}>
-                  <option>Tanay, Rizal (Main Office)</option>
-                  <option>Cebu City, Cebu</option>
-                  <option>Dasmariñas City, Cavite</option>
-                  <option>Rosario, La Union</option>
+                <select id="location" name="location" required defaultValue={defaultClinic} className={FIELD}>
+                  {branches.map((b) => (
+                    <option key={b.slug}>{b.name}</option>
+                  ))}
                 </select>
               </Field>
               <Field id="appointmentType" label="Appointment Type" error={errors.appointmentType}>
-                <select id="appointmentType" name="appointmentType" required defaultValue="Hearing Evaluation (Adult)" className={FIELD}>
-                  <option>Hearing Evaluation (Adult)</option>
-                  <option>Hearing Evaluation (Pediatric)</option>
-                  <option>Hearing Aid Counseling &amp; Fitting</option>
-                  <option>Hearing Aid Repair &amp; Maintenance</option>
-                  <option>Follow-up Care</option>
-                  <option>Assistive Listening Devices &amp; Accessories</option>
-                  <option>Other</option>
+                <select id="appointmentType" name="appointmentType" required defaultValue={content.appointmentTypes[0]} className={FIELD}>
+                  {content.appointmentTypes.map((o) => (
+                    <option key={o}>{o}</option>
+                  ))}
                 </select>
               </Field>
               <Field id="preferredDate" label="Preferred Date" error={errors.preferredDate}><input id="preferredDate" name="preferredDate" type="date" required className={FIELD} /></Field>
               <Field id="preferredTime" label="Preferred Time" error={errors.preferredTime}>
-                <select id="preferredTime" name="preferredTime" required defaultValue="Morning" className={FIELD}>
-                  <option>Morning</option>
-                  <option>Afternoon</option>
+                <select id="preferredTime" name="preferredTime" required defaultValue={content.preferredTimes[0]} className={FIELD}>
+                  {content.preferredTimes.map((o) => (
+                    <option key={o}>{o}</option>
+                  ))}
                 </select>
               </Field>
               <Field id="hearAbout" label="How did you hear about us?" error={errors.hearAbout}>
-                <select id="hearAbout" name="hearAbout" required defaultValue="Google" className={FIELD}>
-                  <option>Google</option>
-                  <option>Friend or family</option>
-                  <option>Doctor referral</option>
-                  <option>Social media (Facebook, Tiktok)</option>
-                  <option>Existing patient</option>
-                  <option>Other</option>
+                <select id="hearAbout" name="hearAbout" required defaultValue={content.hearAboutOptions[0]} className={FIELD}>
+                  {content.hearAboutOptions.map((o) => (
+                    <option key={o}>{o}</option>
+                  ))}
                 </select>
               </Field>
             </div>
@@ -156,12 +145,12 @@ export default function BookPage({
               disabled={submitting}
               className="inline-flex w-full items-center justify-center rounded-full bg-cta px-7 py-4 text-base font-bold text-cta-foreground shadow-soft hover:bg-cta-hover disabled:opacity-60"
             >
-              {submitting ? "Sending…" : "Request My Appointment"}
+              {submitting ? "Sending…" : content.submitLabel}
             </button>
             <div className="text-center text-sm text-muted-foreground">
-              <p>Prefer to talk? Call the branch nearest you:</p>
+              <p>{content.callPrompt}</p>
               <ul className="mt-2 flex flex-wrap justify-center gap-x-5 gap-y-1">
-                {BRANCHES.map((b) => (
+                {branches.map((b) => (
                   <li key={b.name}>
                     <span className="font-semibold text-foreground">{b.shortName}:</span>{" "}
                     <a href={b.phoneHref} className="font-bold text-primary hover:underline">{b.phone}</a>

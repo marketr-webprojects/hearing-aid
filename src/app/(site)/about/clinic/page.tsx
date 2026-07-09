@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { pageMetadata } from "@/lib/content/page-content.server";
 import Link from "next/link";
 import { MapPin, Phone, Clock } from "lucide-react";
+import { pageMetadata, getPageContent } from "@/lib/content/page-content.server";
+import type { AboutClinicContent } from "@/lib/content/registry";
+import { getBranches } from "@/lib/branches.server";
 
 import { CmsSubPage } from "@/components/site/CmsSubPage";
-import { BRANCHES } from "@/lib/company";
 
 const staticMetadata: Metadata = {
-  title: "Our Clinics — Tanay, Cebu, Dasmariñas, La Union | Linaw Dinig",
-  description:
-    "Visit Linaw Dinig Hearing Aid Center at any of our four clinics — Tanay (Rizal), Cebu City, Dasmariñas (Cavite) and Rosario (La Union). Calm, modern, sound-treated clinics designed to put you at ease.",
   keywords: [
     "hearing aid center Tanay",
     "hearing aid center Cebu",
@@ -17,23 +15,24 @@ const staticMetadata: Metadata = {
     "hearing aid center La Union",
     "hearing clinic Philippines",
   ],
-  openGraph: {
-    title: "Our Clinics",
-    description: "Four welcoming hearing clinics across the Philippines — designed to put you at ease.",
-  },
 };
 
 export function generateMetadata(): Promise<Metadata> {
   return pageMetadata("about-clinic", staticMetadata);
 }
 
-export default function Page() {
+export default async function Page() {
+  const [c, branches] = await Promise.all([
+    getPageContent<AboutClinicContent>("about-clinic"),
+    getBranches(),
+  ]);
+
   return (
     <CmsSubPage pageKey="about-clinic">
       <div className="overflow-hidden rounded-3xl border border-border shadow-card">
         <img
-          src="/assets/tanay-front-desk.webp"
-          alt="Front desk of the Linaw Dinig Hearing Aid Center Tanay main office"
+          src={c.heroImage}
+          alt={c.heroImageAlt}
           loading="lazy"
           width={1000}
           height={1333}
@@ -41,13 +40,10 @@ export default function Page() {
         />
       </div>
 
-      <h2 className="text-2xl md:text-3xl">Find a branch near you</h2>
-      <p>
-        Linaw Dinig Hearing Aid Center serves communities across the Philippines from four clinics. Walk in or book
-        ahead — our team is ready to welcome you for a hearing consultation.
-      </p>
+      <h2 className="text-2xl md:text-3xl">{c.branchesHeading}</h2>
+      <p>{c.branchesIntro}</p>
       <div className="grid gap-6 sm:grid-cols-2">
-        {BRANCHES.map((b) => (
+        {branches.map((b) => (
           <div key={b.name} className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card">
             <img
               src={b.image}

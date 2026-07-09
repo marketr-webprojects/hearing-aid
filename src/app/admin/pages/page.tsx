@@ -19,7 +19,7 @@ export default async function PagesAdminPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Pages</h1>
         <p className="text-sm text-muted-foreground mt-0.5">
-          Edit the headline text and SEO of every page. Pages show
+          Edit the text, images and SEO of every page. Pages show
           &ldquo;Customised&rdquo; once edited; otherwise they use the built-in
           copy.
         </p>
@@ -51,16 +51,20 @@ export default async function PagesAdminPage() {
                           </span>
                         )}
                       </div>
-                      <p className="truncate text-xs text-muted-foreground">{p.path}</p>
+                      <p className="truncate text-xs text-muted-foreground">
+                        {p.path.startsWith("/") ? p.path : "Appears on several pages"}
+                      </p>
                     </div>
-                    <Link
-                      href={p.path}
-                      target="_blank"
-                      className="rounded-lg p-2 text-muted-foreground transition hover:bg-muted hover:text-foreground"
-                      title="View page"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </Link>
+                    {p.path.startsWith("/") && (
+                      <Link
+                        href={p.path}
+                        target="_blank"
+                        className="rounded-lg p-2 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                        title="View page"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </Link>
+                    )}
                     <Link
                       href={`/admin/pages/${p.key}`}
                       className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90"

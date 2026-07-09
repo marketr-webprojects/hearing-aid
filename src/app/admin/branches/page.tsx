@@ -19,6 +19,11 @@ export type BranchRow = {
   facebook_href: string;
   reviews_href: string | null;
   image: string;
+  place: string;
+  hero_subtitle: string;
+  about: string[];
+  seo_title: string;
+  seo_description: string;
   display_order: number;
   is_published: boolean;
   created_at: string;

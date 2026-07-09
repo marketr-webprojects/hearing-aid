@@ -4,17 +4,7 @@ import { pageMetadata } from "@/lib/content/page-content.server";
 import { CmsPageHero } from "@/components/site/CmsSubPage";
 import { FAQ } from "@/components/site/FAQ";
 import { CtaStrip } from "@/components/site/CtaStrip";
-import { FAQS } from "@/lib/faqs";
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: FAQS.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-};
+import { getPublishedFaqs } from "@/lib/faqs.server";
 
 const staticMetadata: Metadata = {
   title: "FAQs — Hearing Tests, Hearing Aids & More",
@@ -29,7 +19,18 @@ export function generateMetadata(): Promise<Metadata> {
   return pageMetadata("patients-faqs", staticMetadata);
 }
 
-export default function Page() {
+export default async function Page() {
+  const faqs = await getPublishedFaqs();
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />

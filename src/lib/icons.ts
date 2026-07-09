@@ -22,6 +22,10 @@ import {
   HandHeart,
   Home,
   Check,
+  Wallet,
+  HeartHandshake,
+  Target,
+  Eye,
   type LucideIcon,
 } from "lucide-react";
 
@@ -50,6 +54,10 @@ export const ICONS: Record<string, LucideIcon> = {
   HandHeart,
   Home,
   Check,
+  Wallet,
+  HeartHandshake,
+  Target,
+  Eye,
 };
 
 export const ICON_NAMES = Object.keys(ICONS);

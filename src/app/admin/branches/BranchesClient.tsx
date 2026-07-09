@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Modal, Toggle } from "@/components/ui/modal";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { StringList } from "@/components/admin/fields";
 import {
   Plus,
   Pencil,
@@ -273,6 +274,11 @@ function BranchDialog({
     facebook_href: item?.facebook_href ?? "",
     reviews_href: item?.reviews_href ?? "",
     image: item?.image ?? "",
+    place: item?.place ?? "",
+    hero_subtitle: item?.hero_subtitle ?? "",
+    about: item?.about ?? [],
+    seo_title: item?.seo_title ?? "",
+    seo_description: item?.seo_description ?? "",
     is_published: item?.is_published ?? true,
   });
   const [slugTouched, setSlugTouched] = useState(isEdit);
@@ -437,6 +443,57 @@ function BranchDialog({
             onChange={(src) => set("image", src)}
             heightClass="h-40"
           />
+        </div>
+
+        <div className="space-y-4 rounded-lg border border-border p-4">
+          <p className="text-sm font-semibold text-foreground">
+            Branch page{" "}
+            <span className="font-normal text-muted-foreground">
+              — the public /branches/{form.slug || "…"} page
+            </span>
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label>Place name</Label>
+              <Input
+                value={form.place}
+                onChange={(e) => set("place", e.target.value)}
+                placeholder="e.g. Tanay, Rizal (blank = taken from the branch name)"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Hero subtitle</Label>
+              <Input
+                value={form.hero_subtitle}
+                onChange={(e) => set("hero_subtitle", e.target.value)}
+                placeholder="One line under the page title"
+              />
+            </div>
+          </div>
+          <StringList
+            label="“About this branch” paragraphs"
+            items={form.about}
+            onChange={(about) => set("about", about)}
+            placeholder="A paragraph about this branch"
+            multiline
+          />
+          <div className="space-y-1.5">
+            <Label>SEO title</Label>
+            <Input
+              value={form.seo_title}
+              onChange={(e) => set("seo_title", e.target.value)}
+              placeholder="Blank = “Hearing Tests & Hearing Aids in {place} | Linaw Dinig”"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label>SEO description</Label>
+            <Textarea
+              rows={3}
+              value={form.seo_description}
+              onChange={(e) => set("seo_description", e.target.value)}
+              placeholder="Snippet under the Google result"
+            />
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-6">

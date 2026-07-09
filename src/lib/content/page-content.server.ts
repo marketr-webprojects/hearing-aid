@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { getPageDef, type PageContentData } from "./registry";
+import { getPageDef } from "./registry";
+import type { BaseContent } from "./types";
+import { SHARED, type SharedContent } from "./pages/shared";
 
 /**
  * Read a page's content: the DB override (page_content.data) shallow-merged
  * over the registry defaults. Never throws — falls back to defaults if the
  * row is missing or the table/keys aren't ready.
  */
-export async function getPageData(key: string): Promise<PageContentData> {
+export async function getPageData(key: string): Promise<Record<string, unknown>> {
   const def = getPageDef(key);
   if (!def) throw new Error(`Unknown page key: ${key}`);
 
@@ -20,10 +22,20 @@ export async function getPageData(key: string): Promise<PageContentData> {
       .single();
 
     if (error || !data?.data) return def.defaults;
-    return { ...def.defaults, ...(data.data as Partial<PageContentData>) };
+    return { ...def.defaults, ...(data.data as Record<string, unknown>) };
   } catch {
     return def.defaults;
   }
+}
+
+/** Typed wrapper around getPageData — pass the page's content type. */
+export async function getPageContent<T extends object>(key: string): Promise<T> {
+  return (await getPageData(key)) as T;
+}
+
+/** Content shared across routes (section bands + headings above DB-driven lists). */
+export async function getSharedContent(): Promise<SharedContent> {
+  return (await getPageData(SHARED.key)) as SharedContent;
 }
 
 /**
@@ -31,11 +43,8 @@ export async function getPageData(key: string): Promise<PageContentData> {
  * over any extra static metadata (keywords, openGraph, …) the page keeps
  * in code. Use from a page's generateMetadata().
  */
-export async function pageMetadata(
-  key: string,
-  base: Metadata = {}
-): Promise<Metadata> {
-  const content = await getPageData(key);
+export async function pageMetadata(key: string, base: Metadata = {}): Promise<Metadata> {
+  const content = (await getPageData(key)) as unknown as BaseContent;
   return {
     ...base,
     title: content.seoTitle,
@@ -52,9 +61,7 @@ export async function pageMetadata(
 export async function getAllPageOverrides(): Promise<Record<string, unknown>> {
   try {
     const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("page_content")
-      .select("path, data");
+    const { data, error } = await supabase.from("page_content").select("path, data");
     if (error || !data) return {};
     return Object.fromEntries(data.map((r) => [r.path, r.data]));
   } catch {

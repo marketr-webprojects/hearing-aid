@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { Facebook, Mail, MapPin, Phone, Clock } from "lucide-react";
-import { COMPANY, BRANCHES } from "@/lib/company";
+import { useBranches, useSettings } from "@/components/site/SettingsProvider";
 
 export function SiteFooter() {
+  const settings = useSettings();
+  const branches = useBranches();
+
   return (
     <footer className="mt-20 border-t border-border bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-2 md:px-6 lg:grid-cols-4">
@@ -13,20 +16,20 @@ export function SiteFooter() {
           <span className="inline-block rounded-xl bg-white px-3 py-2">
             <img
               src="/linawdinig-logo.webp"
-              alt={COMPANY.name}
+              alt={settings.name}
               width={1429}
               height={377}
               className="h-10 w-auto"
             />
           </span>
           <p className="mt-3 text-base text-primary-foreground/85">
-            {COMPANY.tagline}
+            {settings.tagline}
           </p>
           <p className="mt-2 text-sm text-primary-foreground/70">
-            Established {COMPANY.established}
+            Established {settings.established}
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            {BRANCHES.map((b) => (
+            {branches.map((b) => (
               <a
                 key={b.facebookHref}
                 aria-label={b.facebookLabel}
@@ -41,12 +44,12 @@ export function SiteFooter() {
             ))}
           </div>
           <a
-            href={COMPANY.social.tiktokHref}
+            href={settings.social.tiktokHref}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-3 inline-block text-sm text-primary-foreground/85 hover:text-accent"
           >
-            TikTok {COMPANY.social.tiktok}
+            TikTok {settings.social.tiktok}
           </a>
         </div>
 
@@ -80,7 +83,7 @@ export function SiteFooter() {
             Get in touch
           </h3>
           <ul className="mt-4 space-y-2 text-primary-foreground/85">
-            {BRANCHES.map((b) => (
+            {branches.map((b) => (
               <li key={b.name} className="flex gap-2">
                 <Phone className="mt-0.5 size-5 shrink-0 text-accent" />
                 <span>
@@ -91,7 +94,7 @@ export function SiteFooter() {
             ))}
             <li className="flex gap-2">
               <Mail className="mt-0.5 size-5 shrink-0 text-accent" />
-              <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
+              <a href={`mailto:${settings.email}`}>{settings.email}</a>
             </li>
           </ul>
         </div>
@@ -99,7 +102,7 @@ export function SiteFooter() {
         <div className="lg:col-span-2">
           <h3 className="text-base font-bold text-primary-foreground">Our Branches</h3>
           <ul className="mt-4 grid gap-5 sm:grid-cols-2">
-            {BRANCHES.map((b) => (
+            {branches.map((b) => (
               <li key={b.name} className="text-sm text-primary-foreground/85">
                 <p className="font-bold text-primary-foreground">
                   <Link href={`/branches/${b.slug}`} className="hover:text-accent">
@@ -131,14 +134,10 @@ export function SiteFooter() {
 
       <div className="border-t border-primary-foreground/15">
         <div className="mx-auto max-w-7xl px-4 py-6 text-sm text-primary-foreground/70 md:px-6">
-          <p>
-            {COMPANY.name} audiologists are qualified practitioners. All
-            information on this site is general in nature and not a substitute
-            for professional advice.
-          </p>
+          <p>{settings.disclaimer}</p>
           <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
             <span>
-              © {new Date().getFullYear()} {COMPANY.name}
+              © {new Date().getFullYear()} {settings.name}
             </span>
             <a href="#" className="hover:text-accent">
               Privacy Policy

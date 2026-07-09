@@ -27,7 +27,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   };
 
   return (
-    <>
+    <SettingsProvider settings={settings} branches={branches}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
@@ -38,6 +38,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <SiteFooter />
       </div>
       <MusicPlayer />
-    </>
+    </SettingsProvider>
   );
 }

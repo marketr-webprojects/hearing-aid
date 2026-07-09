@@ -15,6 +15,3 @@ export const DEFAULT_FAQS: Faq[] = [
   { q: "Do you test children's hearing?", a: "Yes. We provide comprehensive pediatric hearing evaluation — including newborn hearing screening, play audiometry, ABR/BAER and ASSR — because early detection and intervention give every child the best start." },
   { q: "Do I need a referral to book an appointment?", a: "No referral needed. You're welcome to book directly with us." },
 ];
-
-// Back-compat alias for existing imports.
-export const FAQS = DEFAULT_FAQS;
