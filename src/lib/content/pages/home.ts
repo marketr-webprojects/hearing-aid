@@ -23,7 +23,9 @@ export const HOME: PageDef<HomeContent> = {
   group: "Home",
   groups: [
     {
-      label: "Hero",
+      // Not "Hero": the editor prepends an auto "Hero" group for the
+      // eyebrow/title/subtitle, and two groups must not share a label.
+      label: "Hero image & buttons",
       fields: [
         { key: "heroImage", type: "image", label: "Hero image" },
         { key: "heroImageAlt", type: "text", label: "Hero image description (for screen readers)" },

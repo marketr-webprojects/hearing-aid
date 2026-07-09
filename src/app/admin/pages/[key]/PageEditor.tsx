@@ -90,8 +90,8 @@ export default function PageEditor({
         </div>
       </div>
 
-      {groups.map((group) => (
-        <Section key={group.label} title={group.label}>
+      {groups.map((group, i) => (
+        <Section key={`${i}-${group.label}`} title={group.label}>
           <div className="space-y-5">
             {group.fields.map((field) => (
               <SchemaField

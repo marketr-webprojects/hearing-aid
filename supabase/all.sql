@@ -282,60 +282,54 @@ alter table public.branches add column if not exists seo_title       text not nu
 alter table public.branches add column if not exists seo_description text not null default '';
 
 -- Backfill the branch-page copy that used to live in the Next.js source, so an
--- existing install keeps its /branches/[slug] pages. Only fills blank columns,
--- so it never overwrites anything edited in the admin.
+-- existing install keeps its /branches/[slug] pages. One plain UPDATE per slug:
+-- no FROM clause, so a bare column name can only mean the table's column.
+-- Each only fills a column that is still blank, so re-running never overwrites
+-- anything edited in the admin.
+
 update public.branches set
-  place = coalesce(nullif(place, ''), v.place),
-  hero_subtitle = coalesce(nullif(hero_subtitle, ''), v.hero_subtitle),
-  about = case when about = '{}' then v.about else about end,
-  seo_description = coalesce(nullif(seo_description, ''), v.seo_description)
-from (values
-  (
-    'tanay',
-    'Tanay, Rizal',
-    'Our main office — serving Tanay, Baras, Pililla, Morong, Antipolo and the wider Rizal province since June 2021.',
-    array[
+  place = coalesce(nullif(place, ''), $p$Tanay, Rizal$p$),
+  hero_subtitle = coalesce(nullif(hero_subtitle, ''), $p$Our main office — serving Tanay, Baras, Pililla, Morong, Antipolo and the wider Rizal province since June 2021.$p$),
+  about = case when coalesce(array_length(about, 1), 0) = 0 then array[
       $p$The Tanay branch is where Linaw Dinig began in June 2021, and it remains our main office today. You'll find us at the G-Complex along Sampaloc Road in Brgy. Plaza Aldea — with ample parking and a wheelchair-accessible entrance, so getting to your appointment is the easy part.$p$,
       $p$As the main office, Tanay offers our complete range of services: comprehensive hearing evaluations for adults and children, newborn hearing screening, hearing aid counseling and fitting, in-clinic repairs and maintenance, and ongoing follow-up care. Our lead audiologist and Tanay-based audiometrist Rica Roxas — a certified newborn hearing screening personnel — see patients here Monday to Friday.$p$,
       $p$Patients have rated the Tanay branch 4.9 out of 5 on Google. If you're anywhere in Rizal province and searching for a hearing test or hearing aids near you, this is your branch.$p$
-    ],
-    $p$Visit the Linaw Dinig Hearing Aid Center main office in Tanay, Rizal — hearing tests for adults and children, hearing aid counseling & fitting, repairs and follow-up care. Rated 4.9 on Google.$p$
-  ),
-  (
-    'cebu',
-    'Cebu City',
-    'Our home in the Visayas — quality hearing care for Cebu City and neighboring communities.',
-    array[
+    ] else about end,
+  seo_description = coalesce(nullif(seo_description, ''), $p$Visit the Linaw Dinig Hearing Aid Center main office in Tanay, Rizal — hearing tests for adults and children, hearing aid counseling & fitting, repairs and follow-up care. Rated 4.9 on Google.$p$)
+where slug = $p$tanay$p$;
+
+update public.branches set
+  place = coalesce(nullif(place, ''), $p$Cebu City$p$),
+  hero_subtitle = coalesce(nullif(hero_subtitle, ''), $p$Our home in the Visayas — quality hearing care for Cebu City and neighboring communities.$p$),
+  about = case when coalesce(array_length(about, 1), 0) = 0 then array[
       $p$Our Cebu branch brings Linaw Dinig's hearing care to the Visayas. We're located on the 3rd floor of Anchor Lab Medical Center in the Aspac Building along N. Bacalso Avenue, Sambag I — a familiar medical hub that's easy to reach from most of Cebu City. Parking nearby is limited, so commuting or being dropped off is often the easier option; note that the clinic is not wheelchair accessible.$p$,
       $p$The branch is home to audiometrist Hannah Pason, trained in supporting children with special needs and in spotting red flags of developmental delay — so both adult and pediatric patients are in good hands. Hearing evaluations, hearing aid counseling and fitting, repairs and follow-up care are all available here Monday to Friday.$p$,
       $p$Cebu patients have given the branch a 5.0 rating on Google. If you're searching for a hearing test or hearing aid center in Cebu City, come visit — no referral needed.$p$
-    ],
-    $p$Linaw Dinig Hearing Aid Center Cebu — hearing tests, hearing aid counseling & fitting, repairs and follow-up care inside Anchor Lab Medical Center on N. Bacalso Avenue, Cebu City. Rated 5.0 on Google.$p$
-  ),
-  (
-    'dasmarinas',
-    'Dasmariñas City, Cavite',
-    'Hearing care for Cavite — so patients from Dasmariñas, Imus, Bacoor and beyond don''t have to travel far.',
-    array[
+    ] else about end,
+  seo_description = coalesce(nullif(seo_description, ''), $p$Linaw Dinig Hearing Aid Center Cebu — hearing tests, hearing aid counseling & fitting, repairs and follow-up care inside Anchor Lab Medical Center on N. Bacalso Avenue, Cebu City. Rated 5.0 on Google.$p$)
+where slug = $p$cebu$p$;
+
+update public.branches set
+  place = coalesce(nullif(place, ''), $p$Dasmariñas City, Cavite$p$),
+  hero_subtitle = coalesce(nullif(hero_subtitle, ''), $p$Hearing care for Cavite — so patients from Dasmariñas, Imus, Bacoor and beyond don't have to travel far.$p$),
+  about = case when coalesce(array_length(about, 1), 0) = 0 then array[
       $p$Our Dasmariñas branch serves the whole of Cavite, located on the 2nd floor of JaroMed and Diagnostic Center in the GRJ Jaro Building along Aguinaldo Highway, Salitran I. The clinic is wheelchair accessible; parking space is limited, so allow a few extra minutes if you're driving.$p$,
       $p$This branch operates by appointment between 9AM and 5PM — which means no long waits: your time slot is yours. Booking ahead by phone or through our online form guarantees you're seen at the Dasma clinic, not mistakenly listed at another branch.$p$,
       $p$Patients here have rated the branch 5.0 on Google, praising the gentle, clearly explained testing. Hearing evaluations, hearing aid counseling and fitting, repairs and follow-up care are all available — if you're in Cavite and searching for a hearing center near you, this is the one.$p$
-    ],
-    $p$Linaw Dinig Hearing Aid Center Dasma — hearing tests, hearing aid counseling & fitting, repairs and follow-up care inside JaroMed & Diagnostic Center on Aguinaldo Highway, Dasmariñas, Cavite. By appointment.$p$
-  ),
-  (
-    'la-union',
-    'Rosario, La Union',
-    'Bringing quality hearing care to North Luzon — Rosario, the rest of La Union, and neighboring Pangasinan and Baguio.',
-    array[
+    ] else about end,
+  seo_description = coalesce(nullif(seo_description, ''), $p$Linaw Dinig Hearing Aid Center Dasma — hearing tests, hearing aid counseling & fitting, repairs and follow-up care inside JaroMed & Diagnostic Center on Aguinaldo Highway, Dasmariñas, Cavite. By appointment.$p$)
+where slug = $p$dasmarinas$p$;
+
+update public.branches set
+  place = coalesce(nullif(place, ''), $p$Rosario, La Union$p$),
+  hero_subtitle = coalesce(nullif(hero_subtitle, ''), $p$Bringing quality hearing care to North Luzon — Rosario, the rest of La Union, and neighboring Pangasinan and Baguio.$p$),
+  about = case when coalesce(array_length(about, 1), 0) = 0 then array[
       $p$Our newest branch brings Linaw Dinig to North Luzon. We hold clinic inside Rosario Diagnostic Center along MacArthur Highway in Rosario, La Union — right on the main route, easy to find whether you're coming from the coast or down from Baguio. Parking is limited and wheelchair mobility within the facility is limited, so let us know when booking if you need assistance.$p$,
       $p$The branch is run by audiometrist Jah Estoque — a Registered Midwife with special training in supporting children with special needs, which makes her especially well-suited to newborn hearing screening and pediatric visits. Clinic hours are Monday to Friday, 9AM to 4PM.$p$,
       $p$Hearing evaluations, hearing aid counseling and fitting, repairs and follow-up care are all available here, with the full support of our main office behind every visit. If you're in La Union or nearby provinces searching for a hearing test, we'd love to welcome you.$p$
-    ],
-    $p$Linaw Dinig Hearing Aid Center La Union — hearing tests, hearing aid counseling & fitting, repairs and follow-up care inside Rosario Diagnostic Center on MacArthur Highway, Rosario, La Union.$p$
-  )
-) as v(slug, place, hero_subtitle, about, seo_description)
-where public.branches.slug = v.slug;
+    ] else about end,
+  seo_description = coalesce(nullif(seo_description, ''), $p$Linaw Dinig Hearing Aid Center La Union — hearing tests, hearing aid counseling & fitting, repairs and follow-up care inside Rosario Diagnostic Center on MacArthur Highway, Rosario, La Union.$p$)
+where slug = $p$la-union$p$;
 
 create index if not exists branches_display_order_idx on public.branches(display_order);
 
