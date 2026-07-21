@@ -16,12 +16,8 @@ import { HearingQuiz } from "@/components/site/HearingQuiz";
 import { CtaStrip } from "@/components/site/CtaStrip";
 import { Reveal } from "@/components/site/Reveal";
 
-const staticMetadata: Metadata = {
-  openGraph: { images: ["/og-home.jpg"] },
-};
-
 export function generateMetadata(): Promise<Metadata> {
-  return pageMetadata("home", staticMetadata);
+  return pageMetadata("home");
 }
 
 export default async function HomePage() {

@@ -3,6 +3,7 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { TopProgressBar } from "@/components/TopProgressBar";
+import { SITE_NAME, OG_IMAGE } from "@/lib/seo";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -11,24 +12,32 @@ const nunito = Nunito({
   variable: "--font-nunito",
 });
 
+const DEFAULT_TITLE =
+  "Linaw Dinig Hearing Aid Center — Clear Hearing. Better Living.";
+const DEFAULT_DESCRIPTION =
+  "Trusted hearing healthcare in the Philippines. Comprehensive hearing tests for adults & children, hearing aid fitting, repairs and follow-up care. Branches in Tanay, Cebu, Dasmariñas & La Union.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  icons: {
-    icon: [{ url: "/LDregistered.webp", type: "image/webp" }],
-    shortcut: ["/LDregistered.webp"],
-    apple: [{ url: "/LDregistered.webp" }],
-  },
-  title: "Linaw Dinig Hearing Aid Center — Clear Hearing. Better Living.",
-  description:
-    "Trusted hearing healthcare in the Philippines. Comprehensive hearing tests for adults & children, hearing aid fitting, repairs and follow-up care. Branches in Tanay, Cebu, Dasmariñas & La Union.",
+  // App icons are provided by src/app/icon.png and src/app/apple-icon.png.
+  title: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Linaw Dinig Hearing Aid Center — Clear Hearing. Better Living.",
-    description:
-      "Expert hearing tests, fittings and ongoing hearing care from qualified audiologists across the Philippines.",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
     type: "website",
+    siteName: SITE_NAME,
+    locale: "en_PH",
+    url: "/",
+    images: [OG_IMAGE],
   },
+  // No title/description here so per-page cards fall back to each page's
+  // og:title / og:description instead of repeating the site default.
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
+    images: [OG_IMAGE.url],
   },
 };
 

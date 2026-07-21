@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getPageDef } from "./registry";
 import type { BaseContent } from "./types";
 import { SHARED, type SharedContent } from "./pages/shared";
+import { OG_IMAGE } from "@/lib/seo";
 
 /**
  * Read a page's content: the DB override (page_content.data) shallow-merged
@@ -45,12 +46,19 @@ export async function getSharedContent(): Promise<SharedContent> {
  */
 export async function pageMetadata(key: string, base: Metadata = {}): Promise<Metadata> {
   const content = (await getPageData(key)) as unknown as BaseContent;
+  const def = getPageDef(key);
+  const baseOg = base.openGraph ?? {};
   return {
     ...base,
     title: content.seoTitle,
     description: content.seoDescription,
+    ...(def ? { alternates: { canonical: def.path, ...base.alternates } } : {}),
     openGraph: {
-      ...(base.openGraph ?? {}),
+      // Default share image; a page can override by passing its own in `base`.
+      images: [OG_IMAGE],
+      ...baseOg,
+      type: "website",
+      ...(def ? { url: def.path } : {}),
       title: content.seoTitle,
       description: content.seoDescription,
     },

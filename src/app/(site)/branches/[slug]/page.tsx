@@ -12,6 +12,7 @@ import { DEFAULT_BRANCHES, placeOf } from "@/lib/branches";
 import { getPageContent } from "@/lib/content/page-content.server";
 import type { ServicesContent } from "@/lib/content/registry";
 import { getIcon } from "@/lib/icons";
+import { OG_IMAGE } from "@/lib/seo";
 
 // Build-time slugs only — generateStaticParams cannot read cookies, so it can't
 // hit the DB. Branches added later still render on demand (dynamicParams).
@@ -33,9 +34,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title,
     description,
+    alternates: { canonical: `/branches/${branch.slug}` },
     openGraph: {
       title: `Linaw Dinig Hearing Aid Center — ${place}`,
       description,
+      type: "website",
+      url: `/branches/${branch.slug}`,
+      images: [OG_IMAGE],
     },
   };
 }
