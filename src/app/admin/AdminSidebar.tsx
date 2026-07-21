@@ -141,9 +141,9 @@ export default function AdminSidebar({
         </button>
         <div className="flex items-center gap-2">
           <img
-            src="/linawdinig-logo.webp"
+            src="/LDregistered.webp"
             alt="Linaw Dinig"
-            className="h-7 w-7 rounded-full bg-white p-0.5"
+            className="h-7 w-7 rounded-lg bg-white object-contain p-0.5"
           />
           <p className="text-white font-semibold text-sm leading-none">Admin Panel</p>
         </div>
@@ -166,9 +166,9 @@ export default function AdminSidebar({
         <div className="px-5 py-5 border-b border-white/10">
           <div className="flex items-center gap-3">
             <img
-              src="/linawdinig-logo.webp"
+              src="/LDregistered.webp"
               alt="Linaw Dinig"
-              className="h-9 w-9 rounded-full bg-white p-0.5 shrink-0"
+              className="h-9 w-9 rounded-lg bg-white object-contain p-0.5 shrink-0"
             />
             <div className="flex-1">
               <p className="text-white font-display font-bold text-sm leading-none tracking-wide">

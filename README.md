@@ -48,11 +48,16 @@ npm run dev      # http://localhost:3000
 ### Environment
 
 Set `NEXT_PUBLIC_SITE_URL` to your production origin so `metadataBase` and the
-sitemap emit absolute URLs. Defaults to `http://localhost:3000`.
+sitemap emit absolute URLs. Defaults to `http://localhost:3000`. In production,
+set this in your hosting platform's environment variables (not `.env.local`,
+which is git-ignored and dev-only).
 
 ```bash
-# .env.local
-NEXT_PUBLIC_SITE_URL=https://your-domain.com
+# .env.local (local dev)
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+# production (host env vars)
+NEXT_PUBLIC_SITE_URL=https://www.linawdinig.com
 ```
 
 ## Project structure

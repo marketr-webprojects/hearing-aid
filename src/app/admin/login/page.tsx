@@ -38,9 +38,9 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center mb-6">
           <img
-            src="/linawdinig-logo.webp"
+            src="/LDregistered.webp"
             alt="Linaw Dinig"
-            className="h-16 w-16 rounded-full bg-white p-1"
+            className="h-16 w-16 rounded-2xl bg-white object-contain p-2"
           />
           <p className="mt-3 font-display text-2xl font-bold tracking-wide text-white">
             LINAW DINIG
