@@ -2,6 +2,11 @@
 
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { sendEmail, NOTIFY_TO } from "@/lib/email/resend";
+import {
+  bookingNotificationEmail,
+  bookingConfirmationEmail,
+} from "@/lib/email/templates";
 
 const schema = z.object({
   firstName: z.string().trim().min(1).max(60),
@@ -47,6 +52,22 @@ export async function requestAppointment(
       notes: d.notes || null,
     });
     if (error) return { error: "Something went wrong. Please call us instead." };
+
+    // The request is stored — email delivery is best-effort and must never
+    // fail the submission. Notify the clinic (reply-to the customer) and send
+    // the customer a confirmation.
+    await Promise.allSettled([
+      sendEmail({
+        to: NOTIFY_TO,
+        replyTo: d.email,
+        ...bookingNotificationEmail(d),
+      }),
+      sendEmail({
+        to: d.email,
+        ...bookingConfirmationEmail(d),
+      }),
+    ]);
+
     return {};
   } catch {
     return { error: "Something went wrong. Please call us instead." };

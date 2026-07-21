@@ -60,6 +60,25 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_SITE_URL=https://www.linawdinig.com
 ```
 
+### Email (Resend)
+
+Transactional email runs on [Resend](https://resend.com). Booking notifications,
+customer confirmations, and admin password-reset links all send through it.
+
+```bash
+RESEND_API_KEY=re_...                                          # resend.com/api-keys
+EMAIL_FROM=Linaw Dinig Hearing Aid Center <noreply@linawdinig.com>  # verified domain
+CONTACT_NOTIFY_EMAIL=linaw.dinig.hac@gmail.com                 # receives new bookings
+```
+
+The domain in `EMAIL_FROM` must be verified in Resend (Domains → Add domain →
+add the DNS records). Password resets use `admin.generateLink` and are delivered
+by Resend directly, so no Supabase SMTP configuration is required. Without
+`RESEND_API_KEY`, sends are skipped with a console warning (form submissions and
+DB writes still succeed).
+
+Mail code lives in `src/lib/email/` (`resend.ts` sender, `templates.ts` HTML).
+
 ## Project structure
 
 ```

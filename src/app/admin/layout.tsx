@@ -9,7 +9,11 @@ export const metadata = {
   robots: "noindex, nofollow",
 };
 
-const STANDALONE_PAGES = ["/admin/login"];
+const STANDALONE_PAGES = [
+  "/admin/login",
+  "/admin/forgot-password",
+  "/admin/reset-password",
+];
 
 export default async function AdminLayout({
   children,

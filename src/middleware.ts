@@ -49,6 +49,13 @@ export async function middleware(request: NextRequest) {
 
   const isAdminRoute = pathname.startsWith("/admin");
   const isLoginPath = pathname === "/admin/login";
+  // Auth pages that must be reachable without a normal session: login, the
+  // password-reset request/confirm/reset flow.
+  const isAuthPath =
+    isLoginPath ||
+    pathname === "/admin/forgot-password" ||
+    pathname === "/admin/reset-password" ||
+    pathname.startsWith("/admin/auth/");
 
   if (!isAdminRoute) return supabaseResponse;
 
@@ -60,9 +67,13 @@ export async function middleware(request: NextRequest) {
     return res;
   };
 
-  if (!user && !isLoginPath) return redirect("/admin/login");
+  if (!user && !isAuthPath) return redirect("/admin/login");
 
   if (user) {
+    // Only the login page bounces an authenticated user to their dashboard;
+    // the recovery flow (reset-password) must render even with a session.
+    if (isAuthPath && !isLoginPath) return supabaseResponse;
+
     const adminClient = createSupabaseAdmin(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,

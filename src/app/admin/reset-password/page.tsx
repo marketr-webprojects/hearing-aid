@@ -1,49 +1,35 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
-import { logActivity } from "@/lib/supabase/logging";
+import { useState } from "react";
+import { updatePassword } from "./actions";
 
-export default function LoginPage() {
-  return (
-    <Suspense>
-      <LoginForm />
-    </Suspense>
-  );
-}
-
-function LoginForm() {
-  const searchParams = useSearchParams();
-  const linkError = searchParams.get("error")
-    ? "That reset link is invalid or has expired. Please request a new one."
-    : null;
-  const [email, setEmail] = useState("");
+export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setLoading(true);
 
-    const supabase = createClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (signInError) {
-      setError("Invalid email or password.");
-      setLoading(false);
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+    if (password !== confirm) {
+      setError("Passwords do not match.");
       return;
     }
 
-    logActivity("login", "auth", `Logged in: ${email}`, undefined, email).catch(
-      () => {}
-    );
+    setLoading(true);
+    const res = await updatePassword({ password });
+    if (res?.error) {
+      setError(res.error);
+      setLoading(false);
+      return;
+    }
+    // Session is now active — land in the admin dashboard.
     window.location.href = "/admin";
   };
 
@@ -61,50 +47,42 @@ function LoginForm() {
           </p>
         </div>
         <div className="bg-white border border-border rounded-2xl p-8 shadow-xl">
-          <h1 className="text-xl font-bold mb-1">Admin Login</h1>
+          <h1 className="text-xl font-bold mb-1">Choose a new password</h1>
           <p className="text-sm text-muted-foreground mb-6">
-            Hearing Aid Center
+            Enter a new password for your admin account.
           </p>
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <label htmlFor="email" className="text-sm font-medium block">
-                Email
+              <label htmlFor="password" className="text-sm font-medium block">
+                New password
               </label>
-              <input
-                id="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-10 px-3 rounded-lg border border-input bg-white text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-sm font-medium block">
-                  Password
-                </label>
-                <Link
-                  href="/admin/forgot-password"
-                  className="text-xs font-medium text-primary hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
               <input
                 id="password"
                 type="password"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full h-10 px-3 rounded-lg border border-input bg-white text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
               />
             </div>
-            {(error || linkError) && (
+            <div className="space-y-1.5">
+              <label htmlFor="confirm" className="text-sm font-medium block">
+                Confirm password
+              </label>
+              <input
+                id="confirm"
+                type="password"
+                autoComplete="new-password"
+                required
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                className="w-full h-10 px-3 rounded-lg border border-input bg-white text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
+              />
+            </div>
+            {error && (
               <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-lg">
-                {error ?? linkError}
+                {error}
               </p>
             )}
             <button
@@ -112,7 +90,7 @@ function LoginForm() {
               disabled={loading}
               className="w-full h-10 rounded-lg bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity disabled:opacity-60"
             >
-              {loading ? "Signing in…" : "Sign In"}
+              {loading ? "Saving…" : "Update password"}
             </button>
           </form>
         </div>
