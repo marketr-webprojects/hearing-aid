@@ -22,27 +22,48 @@ export const BOOK: PageDef<BookContent> = {
         {
           key: "appointmentTypes",
           type: "strings",
-          label: "Appointment types (the “Preferred Clinic” list comes from Branches)",
+          label:
+            "Appointment types (the “Preferred Clinic” list comes from Branches)",
           placeholder: "e.g. Hearing Evaluation (Adult)",
         },
-        { key: "preferredTimes", type: "strings", label: "Preferred times", placeholder: "e.g. Morning" },
-        { key: "hearAboutOptions", type: "strings", label: "“How did you hear about us?” options", placeholder: "e.g. Google" },
+        {
+          key: "preferredTimes",
+          type: "strings",
+          label: "Preferred times",
+          placeholder: "e.g. Morning",
+        },
+        {
+          key: "hearAboutOptions",
+          type: "strings",
+          label: "“How did you hear about us?” options",
+          placeholder: "e.g. Google",
+        },
       ],
     },
     {
       label: "Labels & confirmation",
       fields: [
         { key: "submitLabel", type: "text", label: "Submit button label" },
-        { key: "callPrompt", type: "text", label: "Text above the branch phone list" },
+        {
+          key: "callPrompt",
+          type: "text",
+          label: "Text above the branch phone list",
+        },
         { key: "successTitle", type: "text", label: "Confirmation heading" },
-        { key: "successBody", type: "textarea", label: "Confirmation message (“{phone}” is replaced by the main phone number)" },
+        {
+          key: "successBody",
+          type: "textarea",
+          label:
+            "Confirmation message (“{phone}” is replaced by the main phone number)",
+        },
       ],
     },
   ],
   defaults: {
     eyebrow: "Book Online · Under 2 minutes",
     title: "Book Your Appointment",
-    subtitle: "Choose your preferred clinic and time — we'll confirm within one business day.",
+    subtitle:
+      "Choose your preferred clinic and time — we'll confirm within one business day.",
     seoTitle: "Book a Hearing Test — Linaw Dinig Hearing Aid Center",
     seoDescription:
       "Book a hearing assessment with our qualified audiologists. Online booking takes under two minutes.",
@@ -69,6 +90,6 @@ export const BOOK: PageDef<BookContent> = {
     callPrompt: "Prefer to talk? Call the branch nearest you:",
     successTitle: "Thanks — your request is in!",
     successBody:
-      "We'll be in touch within one business day to confirm your appointment. If you'd like to chat sooner, call us on {phone}.",
+      "We'll be in touch within one business day to confirm your appointment. If you'd like to chat sooner, call us at {phone}.",
   },
 };
