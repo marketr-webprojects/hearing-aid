@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { TopProgressBar } from "@/components/TopProgressBar";
 import { SITE_NAME, OG_IMAGE } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/next";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <TopProgressBar />
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );
